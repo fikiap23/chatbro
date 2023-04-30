@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "520165631723",
+    "project_id": "chatbro-backend",
+    "storage_bucket": "chatbro-backend.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:520165631723:android:553957b58330fc23bf40ae",
+        "android_client_info": {
+          "package_name": "com.example.chatbro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "520165631723-n9kns6cf22cn2kg8fot6l178le33v644.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chatbro",
+            "certificate_hash": "370f51d36ae7a42cb6fcc49ee8b9e47e8ad308f5"
+          }
+        },
+        {
+          "client_id": "520165631723-gcuc51a8ekloug83kh1lolspmh4u3umt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsau89WrwK3XpUvDNoogYp3u9qTy4Z8gM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "520165631723-gcuc51a8ekloug83kh1lolspmh4u3umt.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "520165631723-0dlc95ojkci0vc0l9aboikt37e09hdvm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.chatbro"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
