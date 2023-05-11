@@ -4,6 +4,50 @@ Mampu mendemonstrasikan penyelesaian masalah dengan pendekatan matematika dan al
 
 Jawab:
 
+Ada beberapa pendekatan matematika dan algoritma yang project ini pakai, salah satunya:
+
+-Pendekatan matematika method untuk memformat tanggal pesan dikirim atau diterima.
+
+- Method ini menerima data chatContactData sebagai parameter.
+- Kemudian, ia menghitung selisih antara waktu pengiriman pesan terakhir dengan waktu saat ini dalam satuan hari menggunakan fungsi "difference" pada objek DateTime.
+- Jika selisih ini adalah 0, artinya pesan terakhir dikirim hari ini, maka method akan memformat waktu pengiriman pesan terakhir menggunakan DateFormat.Hm() dan menyimpan hasilnya dalam variabel formattedDate.
+- Jika selisih ini adalah 1, artinya pesan terakhir dikirim kemarin, maka method akan menyimpan string "Kemarin" dalam variabel formattedDate.
+- Jika selisih ini lebih besar dari 1, artinya pesan terakhir dikirim lebih dari 1 hari yang lalu, maka method akan memformat waktu pengiriman pesan terakhir menggunakan DateFormat('dd/MM/yyyy') dan menyimpan hasilnya dalam variabel formattedDate.
+- Akhirnya, method mengembalikan nilai formattedDate sebagai output.
+
+```dart
+// Method ini menerima data chatContactData sebagai parameter.
+  String getLastMessageFormattedDate(ChatContact chatContactData) {
+    // mengurutkan waktu pesan terkahir
+    String formattedDate = '';
+    if (chatContactData.timeSent.difference(DateTime.now()).inDays == 0) {
+      formattedDate = DateFormat.Hm().format(chatContactData.timeSent);
+    } else if (chatContactData.timeSent
+            .difference(DateTime.now().subtract(const Duration(days: 1)))
+            .inDays ==
+        0) {
+      formattedDate = 'Kemarin';
+    } else {
+      formattedDate = DateFormat('dd/MM/yyyy').format(chatContactData.timeSent);
+    }
+    return formattedDate;
+  }
+```
+
+Sedangkan untuk contoh algoritma pemrograman yang digunakan project ini adalah algoritma pengurutan pesan
+
+- dimana pesan terbaru akan diurutkan paling atas dalam home chat screen, menggunakan fungsi bawaan sorting dart
+- Fungsi sort((a, b) => b.timeSent.compareTo(a.timeSent)) menggunakan algoritma pengurutan (sorting algorithm) yang disebut dengan Merge Sort atau Mergesort.
+-
+
+```dart
+// urutkan list berdasarkan waktu terkirim, pesan terbaru di atas
+List<Message> sortMessagesByTimeSent(List<Message> messages) {
+  return messages
+      .sort((a, b) => b.timeSent.compareTo(a.timeSent));
+}
+```
+
 # No 2
 
 Mampu menjelaskan algoritma dari solusi yang dibuat (Lampirkan link source code terkait)
