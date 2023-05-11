@@ -233,3 +233,36 @@ Jawab:
 Inovasi UX (Lampirkan url screenshot aplikasi di Gitlab / Github)
 
 Jawab:
+
+-Landing page
+![Landing page](Screenshot_Aplikasi/landing_page.png)
+
+-Register
+![Register](Screenshot_Aplikasi/Register.png)
+
+-OTP
+![OTP](Screenshot_Aplikasi/Otp.png)
+
+-Grup
+![Grup](Screenshot_Aplikasi/grup.png)
+
+-User Chat
+![Chat](Screenshot_Aplikasi/user_chatlist.png)
+
+-History call
+![History](Screenshot_Aplikasi/history.png)
+
+-Status
+![Status](Screenshot_Aplikasi/status.png)
+
+-Select Contact
+![Contact](Screenshot_Aplikasi/select_contact.png)
+
+-Chat Grup
+![Chat](Screenshot_Aplikasi/chat_grup.png)
+
+-Chat Personal
+![Grup](Screenshot_Aplikasi/chat_personal.png)
+
+-Profile teman
+![Grup](Screenshot_Aplikasi/profile_friend.png)
