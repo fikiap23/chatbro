@@ -16,6 +16,11 @@ Mampu menjelaskan konsep dasar OOP
 
 Jawab:
 
+- Abstraction: Memperlihatkan fungsi utama dari Class yang dibutuhkan oleh publik dan menyembunyikan detail pelaksanaannya.
+- Encapsulation: membatasi akses langsung ke data atau metod di dalam kelas dan mengatur akses tersebut.
+- Inheritance: penurunan sikap dan perilaku dari Orang Tua (Parent / Superclass) ke Anaknya (Child / Subclass).
+- Polymorphism :Subclass dapat memiliki implementasi method yang berbeda dari Superclass nya (banyak bentuk).
+
 # No 4
 
 Mampu mendemonstrasikan penggunaan Encapsulation secara tepat (Lampirkan link source code terkait)
@@ -84,6 +89,8 @@ Mampu mendemonstrasikan penggunaan Abstraction secara tepat (Lampirkan link sour
 
 Jawab:
 
+Abstraction: Memperlihatkan fungsi utama dari Class yang dibutuhkan oleh publik dan menyembunyikan detail pelaksanaannya.
+
 - [Abstraction Auth](https://gitlab.com/fikiaprian23/TA_OOP/-/blob/master/lib/features/auth/abstraction/abstract.dart)
 - [Abstraction Call](https://gitlab.com/fikiaprian23/TA_OOP/-/blob/master/lib/features/call/abstraction/abstrct_call.dart)
 - [Abstraction Chat](https://gitlab.com/fikiaprian23/TA_OOP/-/blob/master/lib/features/chat/abstraction/abstract_chat.dart)
@@ -98,13 +105,15 @@ Mampu mendemonstrasikan penggunaan Inheritance dan Polymorphism secara tepat (La
 Jawab:
 
 - Inheritance adalah konsep dimana sebuah class dapat mewarisi properti dan method yang ada pada class lainnya. Pada codingan tersebut, **LoginScreen** dijadikan child class dari **ConsumerStatefulWidget**, sehingga LoginScreen dapat menggunakan semua properti dan method yang ada pada ConsumerStatefulWidget, termasuk juga memodifikasi dan menambahkannya.
-- Polymorphism adalah konsep dimana sebuah class dapat berubah bentuk atau tampilan sesuai dengan implementasinya. Dalam codingan tersebut, **\_LoginScreenState** merupakan child class dari **ConsumerState<LoginScreen>**, dimana \_LoginScreenState mengimplementasikan build method dengan memodifikasi tampilan dari LoginScreen. Dalam method build, terdapat implementasi dari Loader Widget ketika isLoading bernilai true, dan juga terdapat implementasi dari tampilan Scaffold ketika isLoading bernilai false.
+- Polymorphism adalah konsep dimana sebuah class dapat berubah bentuk atau tampilan sesuai dengan implementasinya. Dalam codingan tersebut, **\_LoginScreenState** merupakan child class dari **ConsumerState<LoginScreen>**, dimana \_LoginScreenState mengimplementasikan **build method** dengan memodifikasi tampilan dari LoginScreen. Dalam method build, terdapat implementasi dari Loader Widget ketika isLoading bernilai true, dan juga terdapat implementasi dari tampilan Scaffold ketika isLoading bernilai false.
 
 ```dart
+ // extends--> inheritance
 class LoginScreen extends ConsumerStatefulWidget {
   static const routeName = '/login-screen';
   const LoginScreen({Key? key}) : super(key: key);
 
+  //override => Polymorphism
   @override
   ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
@@ -114,6 +123,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Country? country;
   bool isLoading = false;
 
+  //override => Polymorphism
   @override
   void dispose() {
     super.dispose();
@@ -153,6 +163,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     }
   }
 
+  //override => Polymorphism
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
