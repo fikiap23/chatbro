@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
 import 'package:chatbro/common/enums/message_enum.dart';
@@ -36,6 +37,21 @@ class _ChatListState extends ConsumerState<ChatList> {
     messageController.dispose();
   }
 
+  String displayTextDateContainer(Message messageData) {
+    final currentDate = DateTime.now();
+    final today =
+        DateTime(currentDate.year, currentDate.month, currentDate.day);
+    final weekAgo = today.subtract(const Duration(days: 7));
+    final timeDifference = currentDate.difference(messageData.timeSent);
+    if (timeDifference < const Duration(days: 1)) {
+      return "Hari Ini";
+    } else if (messageData.timeSent.isAfter(weekAgo)) {
+      return DateFormat('EEEE', 'id').format(messageData.timeSent);
+    } else {
+      return DateFormat('d MMM y', 'id').format(messageData.timeSent);
+    }
+  }
+
   void onMessageSwipe(
     String message,
     bool isMe,
@@ -52,6 +68,7 @@ class _ChatListState extends ConsumerState<ChatList> {
 
   @override
   Widget build(BuildContext context) {
+    initializeDateFormatting();
     return StreamBuilder<List<Message>>(
         stream: widget.isGroupChat
             ? ref
@@ -70,13 +87,23 @@ class _ChatListState extends ConsumerState<ChatList> {
                 .jumpTo(messageController.position.maxScrollExtent);
           });
 
+          String? lastDisplayedDate;
+
           return ListView.builder(
             controller: messageController,
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
               final messageData = snapshot.data![index];
 
-              var timeSent = DateFormat.Hm().format(messageData.timeSent);
+              String timeSent = DateFormat.Hm().format(messageData.timeSent);
+              String containerText = displayTextDateContainer(messageData);
+
+              // cek apakah tanggal harus ditampilkan
+              final bool shouldDisplayContainer = lastDisplayedDate == null ||
+                  lastDisplayedDate != containerText;
+
+              // update tanggal terakhir
+              lastDisplayedDate = containerText;
 
               if (!messageData.isSeen &&
                   messageData.recieverid ==
@@ -89,35 +116,75 @@ class _ChatListState extends ConsumerState<ChatList> {
               }
               if (messageData.senderId ==
                   FirebaseAuth.instance.currentUser!.uid) {
-                return MyMessageCard(
-                  message: messageData.text,
-                  date: timeSent,
-                  type: messageData.type,
-                  repliedText: messageData.repliedMessage,
-                  username: messageData.repliedTo,
-                  repliedMessageType: messageData.repliedMessageType,
-                  onLeftSwipe: () => onMessageSwipe(
-                    messageData.text,
-                    true,
-                    messageData.type,
-                  ),
-                  isSeen: messageData.isSeen,
+                return Column(
+                  children: [
+                    if (shouldDisplayContainer)
+                      Container(
+                        margin: const EdgeInsets.symmetric(vertical: 8.0),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 4.0),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(16.0),
+                        ),
+                        child: Text(
+                          containerText,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    MyMessageCard(
+                      message: messageData.text,
+                      date: timeSent,
+                      type: messageData.type,
+                      repliedText: messageData.repliedMessage,
+                      username: messageData.repliedTo,
+                      repliedMessageType: messageData.repliedMessageType,
+                      onLeftSwipe: () => onMessageSwipe(
+                        messageData.text,
+                        true,
+                        messageData.type,
+                      ),
+                      isSeen: messageData.isSeen,
+                    ),
+                  ],
                 );
               }
-              return SenderMessageCard(
-                name: messageData.senderId,
-                isGroup: widget.isGroupChat,
-                message: messageData.text,
-                date: timeSent,
-                type: messageData.type,
-                username: messageData.repliedTo,
-                repliedMessageType: messageData.repliedMessageType,
-                onRightSwipe: () => onMessageSwipe(
-                  messageData.text,
-                  false,
-                  messageData.type,
-                ),
-                repliedText: messageData.repliedMessage,
+              return Column(
+                children: [
+                  if (shouldDisplayContainer)
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 8.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 4.0),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(16.0),
+                      ),
+                      child: Text(
+                        containerText,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  SenderMessageCard(
+                    name: messageData.senderId,
+                    isGroup: widget.isGroupChat,
+                    message: messageData.text,
+                    date: timeSent,
+                    type: messageData.type,
+                    username: messageData.repliedTo,
+                    repliedMessageType: messageData.repliedMessageType,
+                    onRightSwipe: () => onMessageSwipe(
+                      messageData.text,
+                      false,
+                      messageData.type,
+                    ),
+                    repliedText: messageData.repliedMessage,
+                  ),
+                ],
               );
             },
           );
