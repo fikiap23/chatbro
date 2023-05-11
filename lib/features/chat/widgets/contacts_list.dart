@@ -14,6 +14,22 @@ import 'package:chatbro/models/group.dart';
 class ContactsList extends ConsumerWidget {
   const ContactsList({Key? key}) : super(key: key);
 
+  String getLastMessageFormattedDate(ChatContact chatContactData) {
+    // mengurutkan waktu pesan terkahir
+    String formattedDate = '';
+    if (chatContactData.timeSent.difference(DateTime.now()).inDays == 0) {
+      formattedDate = DateFormat.Hm().format(chatContactData.timeSent);
+    } else if (chatContactData.timeSent
+            .difference(DateTime.now().subtract(const Duration(days: 1)))
+            .inDays ==
+        0) {
+      formattedDate = 'Kemarin';
+    } else {
+      formattedDate = DateFormat('dd/MM/yyyy').format(chatContactData.timeSent);
+    }
+    return formattedDate;
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
@@ -39,25 +55,6 @@ class ContactsList extends ConsumerWidget {
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) {
                         var chatContactData = snapshot.data![index];
-
-                        // mengurutkan waktu pesan terkahir
-                        String formattedDate = '';
-                        if (chatContactData.timeSent
-                                .difference(DateTime.now())
-                                .inDays ==
-                            0) {
-                          formattedDate =
-                              DateFormat.Hm().format(chatContactData.timeSent);
-                        } else if (chatContactData.timeSent
-                                .difference(DateTime.now()
-                                    .subtract(const Duration(days: 1)))
-                                .inDays ==
-                            0) {
-                          formattedDate = 'Kemarin';
-                        } else {
-                          formattedDate = DateFormat('dd/MM/yyyy')
-                              .format(chatContactData.timeSent);
-                        }
 
                         return Column(
                           children: [
@@ -111,7 +108,8 @@ class ContactsList extends ConsumerWidget {
                                     radius: 30,
                                   ),
                                   trailing: Text(
-                                    formattedDate,
+                                    getLastMessageFormattedDate(
+                                        chatContactData),
                                     style: const TextStyle(
                                       color: blackColor,
                                       fontSize: 13,
