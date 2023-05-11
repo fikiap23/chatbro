@@ -40,6 +40,25 @@ class ContactsList extends ConsumerWidget {
                       itemBuilder: (context, index) {
                         var chatContactData = snapshot.data![index];
 
+                        // mengurutkan waktu pesan terkahir
+                        String formattedDate = '';
+                        if (chatContactData.timeSent
+                                .difference(DateTime.now())
+                                .inDays ==
+                            0) {
+                          formattedDate =
+                              DateFormat.Hm().format(chatContactData.timeSent);
+                        } else if (chatContactData.timeSent
+                                .difference(DateTime.now()
+                                    .subtract(const Duration(days: 1)))
+                                .inDays ==
+                            0) {
+                          formattedDate = 'Kemarin';
+                        } else {
+                          formattedDate = DateFormat('dd/MM/yyyy')
+                              .format(chatContactData.timeSent);
+                        }
+
                         return Column(
                           children: [
                             InkWell(
@@ -92,8 +111,7 @@ class ContactsList extends ConsumerWidget {
                                     radius: 30,
                                   ),
                                   trailing: Text(
-                                    DateFormat.Hm()
-                                        .format(chatContactData.timeSent),
+                                    formattedDate,
                                     style: const TextStyle(
                                       color: blackColor,
                                       fontSize: 13,
