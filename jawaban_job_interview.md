@@ -267,7 +267,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
 # No 7
 
-Mampu menerjemahkan proses bisnis ke dalam skema OOP secara tepat. Bagaimana cara Kamu mendeskripsikan proses bisnis (kumpulan use case) ke dalam OOP ?
+Mampu menjelaskan rancangan dalam bentuk Class Diagram, dan Use Case table (Lampirkan diagram terkait)
 
 Jawab:
 
@@ -295,7 +295,7 @@ Jawab:
 
 **USE CASE SCENARIO**
 
-| Use Case                    | Aktor    | Aksi                                    | Reaksi Sistem Aplikasi Whatsapp      |
+| Use Case                    | Aktor    | Aksi                                    | Reaksi Sistem                        |
 | --------------------------- | -------- | --------------------------------------- | ------------------------------------ |
 | Registrasi                  | Pengguna | Memasukkan data registrasi              | Mendaftarkan pengguna ke sistem      |
 | Lihat Kontak                | Pengguna | Membuka daftar kontak                   | Menampilkan daftar kontak            |
@@ -316,11 +316,22 @@ Jawab:
 | Lihat Profil teman          | Pengguna | Memilih kontak, memilih profil          | Menampilkan profil teman             |
 | Ubah Profile                | Pengguna | Masuk ke pengaturan profil              | Mengubah data profil pengguna        |
 
+**CLASS DIAGRAM**
+
 # No 8
 
-Mampu menjelaskan rancangan dalam bentuk Class Diagram, dan Use Case table (Lampirkan diagram terkait)
+Mampu menerjemahkan proses bisnis ke dalam skema OOP secara tepat. Bagaimana cara Kamu mendeskripsikan proses bisnis (kumpulan use case) ke dalam OOP ?
 
 Jawab:
+
+- Pertama-tama saya membuat use case scenarionya, agar mendapat gambaran skema dan proses bisnis yang akan saya buat.
+- Identifikasi aktor-aktor yang terlibat dalam proses bisnis, seperti pengguna, sistem, dan sebagainya.
+- Identifikasi use case-use case yang terkait dengan proses bisnis, seperti registrasi, mengirim pesan, menerima pesan, dan sebagainya.
+- Identifikasi objek-objek yang terlibat dalam proses bisnis, seperti pesan, grup, kontak, dan sebagainya.
+- Membuat kelas-kelas(Class Diagram digunakan untuk pemodelan OOP) yang merepresentasikan aktor, use case, dan objek yang telah diidentifikasi dalam proses bisnis.
+- Hubungkan kelas-kelas tersebut dengan relasi objek-objek, seperti kelas pesan yang memiliki hubungan dengan kelas kontak dan kelas grup.
+- Implementasikan method-method yang dibutuhkan dalam setiap kelas, seperti method untuk mengirim pesan, menerima pesan, membuat grup, dan sebagainya.
+- Uji coba model OOP yang telah dibuat untuk memastikan konsistensi dan fungsionalitasnya.
 
 # No 9
 
