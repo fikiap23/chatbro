@@ -341,6 +341,10 @@ Mampu memberikan gambaran umum aplikasi kepada publik menggunakan presentasi ber
 
 Jawab:
 
+**Video Demo Project**
+
+![Video Demo](Screenshot_Aplikasi/DemoWA.mp4)
+
 # No 10
 
 Inovasi UX (Lampirkan url screenshot aplikasi di Gitlab / Github)
