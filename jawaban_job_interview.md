@@ -54,6 +54,8 @@ Mampu menjelaskan algoritma dari solusi yang dibuat (Lampirkan link source code 
 
 Jawab:
 
+- [Pengimplementasian dari algoritma chat](https://gitlab.com/fikiaprian23/TA_OOP/-/blob/master/lib/features/chat/repositories/chat_repository.dart)
+
 # No 3
 
 Mampu menjelaskan konsep dasar OOP
