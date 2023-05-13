@@ -271,6 +271,51 @@ Mampu menerjemahkan proses bisnis ke dalam skema OOP secara tepat. Bagaimana car
 
 Jawab:
 
+**USE CASE PRIORITY**
+| Use Case | Priority | Status |
+|------------------------------|----------|--------|
+| Registrasi | Tinggi | Selesai
+| Liat kontak | Tinggi | Selesai |
+| Mengirim Pesan Teks | Tinggi | Selesai |
+| Mengirim Pesan Suara | Tinggi | Selesai |
+| Mengirim Pesan Video | Tinggi | Selesai |
+| Menerima Pesan | Tinggi | Selesai |
+| Menyimpan Pesan | Tinggi | Selesai |
+| Membuat Grup | Tinggi | Selesai
+| Mengirim Pesan di Grup | Tinggi | Selesai |
+| Panggilan Suara | Tinggi | **Belum** |
+| Panggilan Video | Tinggi | **Ongoing** |
+| Mengirim Berkas | Tinggi | **Belum** |
+| Menyimpan Riwayat Panggilan | Sedang | **Baru UI** |
+| Mengatur Notifikasi | Sedang | **Belum** |
+| Buat Status Teman | Sedang | **Baru Ui** |
+| Melihat Status Teman | Sedang | **Baru Ui** |
+| Liat Profil teman | Sedang | Selesai |
+| Ubah profile | Sedang | **Belum** |
+
+**USE CASE SCENARIO**
+
+| Use Case                    | Aktor    | Aksi                                    | Reaksi Sistem Aplikasi Whatsapp      |
+| --------------------------- | -------- | --------------------------------------- | ------------------------------------ |
+| Registrasi                  | Pengguna | Memasukkan data registrasi              | Mendaftarkan pengguna ke sistem      |
+| Lihat Kontak                | Pengguna | Membuka daftar kontak                   | Menampilkan daftar kontak            |
+| Mengirim Pesan Teks         | Pengguna | Memilih kontak, memasukkan teks         | Mengirim pesan teks                  |
+| Mengirim Pesan Suara        | Pengguna | Memilih kontak, merekam suara           | Mengirim pesan suara                 |
+| Mengirim Pesan Video        | Pengguna | Memilih kontak, merekam video           | Mengirim pesan video                 |
+| Menerima Pesan              | Pengguna | Menerima notifikasi pesan baru          | Menampilkan pesan pada layar         |
+| Menyimpan Pesan             | Pengguna | Memilih pesan, memilih opsi             | Menyimpan pesan ke dalam penyimpanan |
+| Membuat Grup                | Pengguna | Memilih opsi membuat grup               | Membuat grup                         |
+| Mengirim Pesan di Grup      | Pengguna | Memilih grup, memasukkan pesan          | Mengirim pesan di grup               |
+| Panggilan Suara             | Pengguna | Memilih kontak, memilih panggilan suara | Memulai panggilan suara              |
+| Panggilan Video             | Pengguna | Memilih kontak, memilih panggilan video | Memulai panggilan video              |
+| Mengirim Berkas             | Pengguna | Memilih kontak, memilih file            | Mengirim berkas                      |
+| Menyimpan Riwayat Panggilan | Pengguna | Memilih opsi riwayat panggilan          | Menampilkan riwayat panggilan        |
+| Mengatur Notifikasi         | Pengguna | Masuk ke pengaturan notifikasi          | Mengatur notifikasi aplikasi         |
+| Buat Status Teman           | Pengguna | Masuk ke opsi buat status               | Membuat status teman                 |
+| Melihat Status Teman        | Pengguna | Memilih opsi melihat status             | Menampilkan status teman             |
+| Lihat Profil teman          | Pengguna | Memilih kontak, memilih profil          | Menampilkan profil teman             |
+| Ubah Profile                | Pengguna | Masuk ke pengaturan profil              | Mengubah data profil pengguna        |
+
 # No 8
 
 Mampu menjelaskan rancangan dalam bentuk Class Diagram, dan Use Case table (Lampirkan diagram terkait)
