@@ -1,0 +1,27 @@
+@startuml
+actor User
+
+User -> AplikasiChat: Buka Aplikasi
+
+AplikasiChat -> AplikasiChat: Tampilkan Daftar Kontak
+
+User -> AplikasiChat: Pilih Kontak
+
+AplikasiChat -> AplikasiChat: Tampilkan Layar Pesan
+
+User -> AplikasiChat: Ketik Pesan
+
+User -> AplikasiChat: Tekan Tombol Kirim
+
+AplikasiChat -> Server: Kirim Pesan Teks
+
+Server -> Server: Validasi Pesan Teks
+
+Server -> Server: Simpan Pesan ke Database
+
+Server -> Penerima: Kirim Notifikasi Pesan Baru
+
+Penerima -> AplikasiChat: Terima Notifikasi Pesan Baru
+
+AplikasiChat -> AplikasiChat: Tampilkan Pesan Baru
+@enduml

@@ -488,6 +488,38 @@ Jawab:
 - Implementasikan method-method yang dibutuhkan dalam setiap kelas, seperti method untuk mengirim pesan, menerima pesan, membuat grup, dan sebagainya.
 - Uji coba model OOP yang telah dibuat untuk memastikan konsistensi dan fungsionalitasnya.
 
+**DFD**
+
+```plantuml
+@startuml
+actor User
+
+User -> WhatsApp: Buka Aplikasi
+
+WhatsApp -> WhatsApp: Tampilkan Daftar Kontak
+
+User -> WhatsApp: Pilih Kontak
+
+WhatsApp -> WhatsApp: Tampilkan Layar Pesan
+
+User -> WhatsApp: Ketik Pesan
+
+User -> WhatsApp: Tekan Tombol Kirim
+
+WhatsApp -> Server: Kirim Pesan Teks
+
+Server -> Server: Validasi Pesan Teks
+
+Server -> Server: Simpan Pesan ke Database
+
+Server -> Penerima: Kirim Notifikasi Pesan Baru
+
+Penerima -> WhatsApp: Terima Notifikasi Pesan Baru
+
+WhatsApp -> WhatsApp: Tampilkan Pesan Baru
+@enduml
+```
+
 ```md
 Berikut adalah beberapa contoh skenario use case untuk aplikasi WhatsApp:
 
