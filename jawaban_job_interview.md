@@ -429,6 +429,23 @@ class File {
     +getCreatedAt(): date
     +setCreatedAt(created_at: date): void
 }
+
+class Auth {
+    -phone_number: string
+    -verification_code: string
+    -is_verified: bool
+    +getPhoneNumber(): string
+    +setPhoneNumber(phone_number: string): void
+    +getVerificationCode(): string
+    +setVerificationCode(verification_code: string): void
+    +getIsVerified(): bool
+    +setIsVerified(is_verified: bool): void
+    +sendVerificationCode(phone_number: string): void
+    +verifyPhoneNumber(verification_code: string): void
+}
+
+
+Auth *-- User
 User *-- Chat
 User *-- Call
 User *-- Notification
