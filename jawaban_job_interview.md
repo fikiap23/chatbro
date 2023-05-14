@@ -489,7 +489,7 @@ Jawab:
 - Uji coba model OOP yang telah dibuat untuk memastikan konsistensi dan fungsionalitasnya.
 
 ```md
-Berikut adalah beberapa contoh skenario use case untuk aplikasi chat sederhana:
+Berikut adalah beberapa contoh skenario use case untuk aplikasi WhatsApp:
 
 ### Skenario 1: Mengirim pesan teks
 
@@ -497,15 +497,15 @@ Berikut adalah beberapa contoh skenario use case untuk aplikasi chat sederhana:
 
 **Tujuan**: Mengirim pesan teks ke kontak yang dipilih
 
-**Deskripsi**: Pengguna ingin mengirim pesan teks ke kontak yang dipilih melalui aplikasi chat.
+**Deskripsi**: Pengguna ingin mengirim pesan teks ke kontak yang dipilih melalui WhatsApp.
 
 **Langkah-langkah**:
 
-1. Pengguna membuka aplikasi chat.
+1. Pengguna membuka WhatsApp.
 2. Pengguna memilih kontak yang ingin dikirimi pesan teks.
 3. Pengguna mengetik pesan teks yang ingin dikirim.
 4. Pengguna mengirimkan pesan teks tersebut.
-5. Aplikasi chat menampilkan pesan teks tersebut pada layar pengguna dan pada penerima pesan.
+5. WhatsApp menampilkan pesan teks tersebut pada layar pengguna dan pada penerima pesan.
 
 ### Skenario 2: Menerima pesan
 
@@ -513,12 +513,12 @@ Berikut adalah beberapa contoh skenario use case untuk aplikasi chat sederhana:
 
 **Tujuan**: Menerima pesan dari pengguna lain
 
-**Deskripsi**: Pengguna ingin menerima pesan yang dikirim oleh pengguna lain melalui aplikasi chat.
+**Deskripsi**: Pengguna ingin menerima pesan yang dikirim oleh pengguna lain melalui WhatsApp.
 
 **Langkah-langkah**:
 
-1. Pengguna membuka aplikasi chat.
-2. Aplikasi chat menampilkan pesan yang diterima oleh pengguna pada layar.
+1. Pengguna membuka WhatsApp.
+2. WhatsApp menampilkan pesan yang diterima oleh pengguna pada layar.
 3. Pengguna membaca pesan tersebut.
 
 ### Skenario 3: Membuat grup
@@ -531,12 +531,12 @@ Berikut adalah beberapa contoh skenario use case untuk aplikasi chat sederhana:
 
 **Langkah-langkah**:
 
-1. Pengguna membuka aplikasi chat.
+1. Pengguna membuka WhatsApp.
 2. Pengguna memilih opsi membuat grup.
 3. Pengguna memberikan nama grup yang ingin dibuat.
 4. Pengguna memilih kontak yang ingin dijadikan anggota grup.
 5. Pengguna mengonfirmasi pembuatan grup.
-6. Aplikasi chat menampilkan grup yang baru saja dibuat pada layar pengguna.
+6. WhatsApp menampilkan grup yang baru saja dibuat pada layar pengguna.
 
 ### Skenario 4: Mengirim pesan di grup
 
@@ -548,11 +548,11 @@ Berikut adalah beberapa contoh skenario use case untuk aplikasi chat sederhana:
 
 **Langkah-langkah**:
 
-1. Pengguna membuka aplikasi chat.
+1. Pengguna membuka WhatsApp.
 2. Pengguna memilih grup yang ingin dikirimi pesan.
 3. Pengguna mengetik pesan yang ingin dikirim.
 4. Pengguna mengirimkan pesan tersebut.
-5. Aplikasi chat menampilkan pesan tersebut pada layar pengguna dan pada anggota grup lainnya.
+5. WhatsApp menampilkan pesan tersebut pada layar pengguna dan pada anggota grup lainnya.
 
 ### Skenario 5: Melihat profil teman
 
@@ -564,9 +564,9 @@ Berikut adalah beberapa contoh skenario use case untuk aplikasi chat sederhana:
 
 **Langkah-langkah**:
 
-1. Pengguna membuka aplikasi chat.
+1. Pengguna membuka WhatsApp.
 2. Pengguna memilih kontak teman yang ingin dilihat profilnya.
-3. Aplikasi chat menampilkan profil teman yang dipilih pada layar pengguna.
+3. WhatsApp menampilkan profil teman yang dipilih pada layar pengguna.
 
 ### Skenario 6: Panggilan suara
 
@@ -574,14 +574,14 @@ Berikut adalah beberapa contoh skenario use case untuk aplikasi chat sederhana:
 
 **Tujuan**: Melakukan panggilan suara dengan kontak yang dipilih
 
-**Deskripsi**: Pengguna ingin melakukan panggilan suara dengan kontak yang dipilih melalui aplikasi chat.
+**Deskripsi**: Pengguna ingin melakukan panggilan suara dengan kontak yang dipilih melalui WhatsApp.
 
 **Langkah-langkah**:
 
-1. Pengguna membuka aplikasi chat.
+1. Pengguna membuka WhatsApp.
 2. Pengguna memilih kontak yang ingin dihubungi melalui panggilan suara.
 3. Pengguna memilih opsi panggilan suara.
-4. Aplikasi chat menghubungkan pengguna dengan kontak yang dipilih untuk melakukan panggilan suara.
+4. WhatsApp menghubungkan pengguna dengan kontak yang dipilih untuk melakukan panggilan suara.
 5. Pengguna dan kontak yang dipilih dapat berbicara melalui panggilan suara.
 
 ### Skenario 7: Panggilan video
@@ -590,14 +590,14 @@ Berikut adalah beberapa contoh skenario use case untuk aplikasi chat sederhana:
 
 **Tujuan**: Melakukan panggilan video dengan kontak yang dipilih
 
-**Deskripsi**: Pengguna ingin melakukan panggilan video dengan kontak yang dipilih melalui aplikasi chat.
+**Deskripsi**: Pengguna ingin melakukan panggilan video dengan kontak yang dipilih melalui WhatsApp.
 
 **Langkah-langkah**:
 
-1. Pengguna membuka aplikasi chat.
+1. Pengguna membuka WhatsApp.
 2. Pengguna memilih kontak yang ingin dihubungi melalui panggilan video.
 3. Pengguna memilih opsi panggilan video.
-4. Aplikasi chat menghubungkan pengguna dengan kontak yang dipilih untuk melakukan panggilan video.
+4. WhatsApp menghubungkan pengguna dengan kontak yang dipilih untuk melakukan panggilan video.
 5. Pengguna dan kontak yang dipilih dapat berbicara dan melihat satu sama lain melalui panggilan video.
 ```
 
