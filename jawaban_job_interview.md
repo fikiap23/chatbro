@@ -302,164 +302,123 @@ Jawab:
 @startuml
 
 class User {
-    -id: int
-    -name: string
-    -phone_number: string
-    -profile_picture: string
-    -status: string
-    +getName(): string
-    +setName(name: string): void
-    +getPhoneNumber(): string
-    +setPhoneNumber(phone_number: string): void
-    +getProfilePicture(): string
-    +setProfilePicture(profile_picture: string): void
-    +getStatus(): string
-    +setStatus(status: string): void
+    - name: string
+    - phone_number: string
+    - profile_picture: string
+    - auth_status: boolean
+    + get_name(): string
+    + set_name(name: string): void
+    + get_phone_number(): string
+    + set_phone_number(phone_number: string): void
+    + get_profile_picture(): string
+    + set_profile_picture(profile_picture: string): void
+    + is_auth(): boolean
+    + set_auth(auth_status: boolean): void
+    + authenticate(phone_number: string, otp: string): boolean
+    + generate_otp(): string
 }
 
-class Chat {
-    -id: int
-    -sender_id: int
-    -receiver_id: int
-    -message_type: string
-    -message_content: string
-    -created_at: date
-    -updated_at: date
-    +getId(): int
-    +getSender(): User
-    +setSender(sender: User): void
-    +getReceiver(): User
-    +setReceiver(receiver: User): void
-    +getMessageType(): string
-    +setMessageType(message_type: string): void
-    +getMessageContent(): string
-    +setMessageContent(message_content: string): void
-    +getCreatedAt(): date
-    +setCreatedAt(created_at: date): void
-    +getUpdatedAt(): date
-    +setUpdatedAt(updated_at: date): void
+class Contact {
+    - name: string
+    - phone_number: string
+    - profile_picture: string
+    + get_name(): string
+    + set_name(name: string): void
+    + get_phone_number(): string
+    + set_phone_number(phone_number: string): void
+    + get_profile_picture(): string
+    + set_profile_picture(profile_picture: string): void
 }
 
 class Group {
-    -id: int
-    -name: string
-    -members: List<User>
-    -created_at: date
-    -updated_at: date
-    +getId(): int
-    +getName(): string
-    +setName(name: string): void
-    +getMembers(): List<User>
-    +setMembers(members: List<User>): void
-    +getCreatedAt(): date
-    +setCreatedAt(created_at: date): void
-    +getUpdatedAt(): date
-    +setUpdatedAt(updated_at: date): void
-    +addMember(user: User): void
-    +removeMember(user: User): void
-    +sendMessage(sender: User, message_content: string): void
+    - name: string
+    - participants: list<Contact>
+    + get_name(): string
+    + set_name(name: string): void
+    + add_participant(participant: Contact): void
+    + remove_participant(participant: Contact): void
+    + get_participants(): list<Contact>
+}
+
+class Message {
+    - sender: User
+    - receiver: Contact
+    - content: string
+    - timestamp: datetime
+    + get_sender(): User
+    + set_sender(sender: User): void
+    + get_receiver(): Contact
+    + set_receiver(receiver: Contact): void
+    + get_content(): string
+    + set_content(content: string): void
+    + get_timestamp(): datetime
+    + set_timestamp(timestamp: datetime): void
 }
 
 class Call {
-    -id: int
-    -caller: User
-    -receiver: User
-    -call_type: string
-    -call_duration: int
-    -call_start_time: date
-    -call_end_time: date
-    +getId(): int
-    +getCaller(): User
-    +setCaller(caller: User): void
-    +getReceiver(): User
-    +setReceiver(receiver: User): void
-    +getCallType(): string
-    +setCallType(call_type: string): void
-    +getCallDuration(): int
-    +setCallDuration(call_duration: int): void
-    +getCallStartTime(): date
-    +setCallStartTime(call_start_time: date): void
-    +getCallEndTime(): date
-    +setCallEndTime(call_end_time: date): void
-    +startCall(caller: User, receiver: User, call_type: string): void
-    +endCall(call_duration: int): void
+    - caller: User
+    - receiver: Contact
+    - type: string
+    - timestamp: datetime
+    + get_caller(): User
+    + set_caller(caller: User): void
+    + get_receiver(): Contact
+    + set_receiver(receiver: Contact): void
+    + get_type(): string
+    + set_type(type: string): void
+    + get_timestamp(): datetime
+    + set_timestamp(timestamp: datetime): void
 }
 
 class Notification {
-    -id: int
-    -user: User
-    -message: string
-    -created_at: date
-    +getId(): int
-    +getUser(): User
-    +setUser(user: User): void
-    +getMessage(): string
-    +setMessage(message: string): void
-    +getCreatedAt(): date
-    +setCreatedAt(created_at: date): void
+    - title: string
+    - message: string
+    - timestamp: datetime
+    + get_title(): string
+    + set_title(title: string): void
+    + get_message(): string
+    + set_message(message: string): void
+    + get_timestamp(): datetime
+    + set_timestamp(timestamp: datetime): void
 }
 
 class Status {
-    -id: int
-    -user: User
-    -status_content: string
-    -created_at: date
-    +getId(): int
-    +getUser(): User
-    +setUser(user: User): void
-    +getStatusContent(): string
-    +setStatusContent(status_content: string): void
-    +getCreatedAt(): date
-    +setCreatedAt(created_at: date): void
+    - creator: User
+    - content: string
+    - timestamp: datetime
+    + get_creator(): User
+    + set_creator(creator: User): void
+    + get_content(): string
+    + set_content(content: string): void
+    + get_timestamp(): datetime
+    + set_timestamp(timestamp: datetime): void
 }
 
-class File {
-    -id: int
-    -name: string
-    -path: string
-    -size: int
-    -created_at: date
-    +getId(): int
-    +getName(): string
-    +setName(name: string): void
-    +getPath(): string
-    +setPath(path: string): void
-    +getSize(): int
-    +setSize(size: int): void
-    +getCreatedAt(): date
-    +setCreatedAt(created_at: date): void
+User "1" -- "many" Contact
+User "1" -- "many" Group
+Contact "1" -- "many" Group
+User "1" -- "many" Message
+Contact "1" -- "many" Message
+User "1" -- "many" Call
+Contact "1" -- "many" Call
+User "1" -- "many" Notification
+Contact "1" -- "many" Notification
+User "1" -- "many" Status
+
+User --> AuthController
+
+class AuthController {
+    + request_otp
+    + authenticate(phone_number: string, otp: string): boolean
 }
 
-class Auth {
-    -phone_number: string
-    -verification_code: string
-    -is_verified: bool
-    +getPhoneNumber(): string
-    +setPhoneNumber(phone_number: string): void
-    +getVerificationCode(): string
-    +setVerificationCode(verification_code: string): void
-    +getIsVerified(): bool
-    +setIsVerified(is_verified: bool): void
-    +sendVerificationCode(phone_number: string): void
-    +verifyPhoneNumber(verification_code: string): void
+AuthController --> SMSProvider
+
+class SMSProvider {
+    + send_otp(phone_number: string, otp: string): boolean
 }
 
-
-Auth *-- User
-User *-- Chat
-User *-- Call
-User *-- Notification
-User *-- Status
-User *-- File
-
-Chat -- Group
-Group *-- User
-
-Call -- User
-
-Notification -- User
-
-Status -- User
+@enduml
 
 File -- Chat
 File -- Group
