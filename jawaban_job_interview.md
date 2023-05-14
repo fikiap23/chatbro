@@ -394,6 +394,19 @@ class Status {
     + set_timestamp(timestamp: datetime): void
 }
 
+class Chat {
+    -id: int
+    -sender_id: int
+    -receiver_id: int
+    -message: string
+    -timestamp: datetime
+    +get_id(): int
+    +get_sender_id(): int
+    +get_receiver_id(): int
+    +get_message(): string
+    +get_timestamp(): datetime
+}
+
 User "1" -- "many" Contact
 User "1" -- "many" Group
 Contact "1" -- "many" Group
@@ -404,6 +417,7 @@ Contact "1" -- "many" Call
 User "1" -- "many" Notification
 Contact "1" -- "many" Notification
 User "1" -- "many" Status
+User "1" o-- "many" Chat
 
 User --> AuthController
 
@@ -420,11 +434,6 @@ class SMSProvider {
 
 @enduml
 
-File -- Chat
-File -- Group
-File -- Call
-
-@enduml
 
 ```
 
