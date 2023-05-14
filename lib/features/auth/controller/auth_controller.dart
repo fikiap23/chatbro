@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:chatbro/features/auth/abstraction/abstract.dart';
+import 'package:chatbro/features/auth/abstraction/abstract_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

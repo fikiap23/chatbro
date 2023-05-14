@@ -1,0 +1,150 @@
+@startuml
+
+class User {
+    -id: int
+    -name: string
+    -phone_number: string
+    -profile_picture: string
+    -status: string
+    +getName(): string
+    +setName(name: string): void
+    +getPhoneNumber(): string
+    +setPhoneNumber(phone_number: string): void
+    +getProfilePicture(): string
+    +setProfilePicture(profile_picture: string): void
+    +getStatus(): string
+    +setStatus(status: string): void
+}
+
+class Chat {
+    -id: int
+    -sender_id: int
+    -receiver_id: int
+    -message_type: string
+    -message_content: string
+    -created_at: date
+    -updated_at: date
+    +getId(): int
+    +getSender(): User
+    +setSender(sender: User): void
+    +getReceiver(): User
+    +setReceiver(receiver: User): void
+    +getMessageType(): string
+    +setMessageType(message_type: string): void
+    +getMessageContent(): string
+    +setMessageContent(message_content: string): void
+    +getCreatedAt(): date
+    +setCreatedAt(created_at: date): void
+    +getUpdatedAt(): date
+    +setUpdatedAt(updated_at: date): void
+}
+
+class Group {
+    -id: int
+    -name: string
+    -members: List<User>
+    -created_at: date
+    -updated_at: date
+    +getId(): int
+    +getName(): string
+    +setName(name: string): void
+    +getMembers(): List<User>
+    +setMembers(members: List<User>): void
+    +getCreatedAt(): date
+    +setCreatedAt(created_at: date): void
+    +getUpdatedAt(): date
+    +setUpdatedAt(updated_at: date): void
+    +addMember(user: User): void
+    +removeMember(user: User): void
+    +sendMessage(sender: User, message_content: string): void
+}
+
+class Call {
+    -id: int
+    -caller: User
+    -receiver: User
+    -call_type: string
+    -call_duration: int
+    -call_start_time: date
+    -call_end_time: date
+    +getId(): int
+    +getCaller(): User
+    +setCaller(caller: User): void
+    +getReceiver(): User
+    +setReceiver(receiver: User): void
+    +getCallType(): string
+    +setCallType(call_type: string): void
+    +getCallDuration(): int
+    +setCallDuration(call_duration: int): void
+    +getCallStartTime(): date
+    +setCallStartTime(call_start_time: date): void
+    +getCallEndTime(): date
+    +setCallEndTime(call_end_time: date): void
+    +startCall(caller: User, receiver: User, call_type: string): void
+    +endCall(call_duration: int): void
+}
+
+class Notification {
+    -id: int
+    -user: User
+    -message: string
+    -created_at: date
+    +getId(): int
+    +getUser(): User
+    +setUser(user: User): void
+    +getMessage(): string
+    +setMessage(message: string): void
+    +getCreatedAt(): date
+    +setCreatedAt(created_at: date): void
+}
+
+class Status {
+    -id: int
+    -user: User
+    -status_content: string
+    -created_at: date
+    +getId(): int
+    +getUser(): User
+    +setUser(user: User): void
+    +getStatusContent(): string
+    +setStatusContent(status_content: string): void
+    +getCreatedAt(): date
+    +setCreatedAt(created_at: date): void
+}
+
+class File {
+    -id: int
+    -name: string
+    -path: string
+    -size: int
+    -created_at: date
+    +getId(): int
+    +getName(): string
+    +setName(name: string): void
+    +getPath(): string
+    +setPath(path: string): void
+    +getSize(): int
+    +setSize(size: int): void
+    +getCreatedAt(): date
+    +setCreatedAt(created_at: date): void
+}
+User *-- Chat
+User *-- Call
+User *-- Notification
+User *-- Status
+User *-- File
+
+Chat -- Group
+Group *-- User
+
+Call -- User
+
+Notification -- User
+
+Status -- User
+
+File -- Chat
+File -- Group
+File -- Call
+
+@enduml

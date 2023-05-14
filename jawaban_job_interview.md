@@ -295,30 +295,162 @@ Jawab:
 | Liat Profil teman | Sedang | Selesai |
 | Ubah profile | Sedang | **Belum** |
 
-**USE CASE SCENARIO**
-
-| Use Case                    | Aktor    | Aksi                                    | Reaksi Sistem                        |
-| --------------------------- | -------- | --------------------------------------- | ------------------------------------ |
-| Registrasi                  | Pengguna | Memasukkan data registrasi              | Mendaftarkan pengguna ke sistem      |
-| Lihat Kontak                | Pengguna | Membuka daftar kontak                   | Menampilkan daftar kontak            |
-| Mengirim Pesan Teks         | Pengguna | Memilih kontak, memasukkan teks         | Mengirim pesan teks                  |
-| Mengirim Pesan Suara        | Pengguna | Memilih kontak, merekam suara           | Mengirim pesan suara                 |
-| Mengirim Pesan Video        | Pengguna | Memilih kontak, merekam video           | Mengirim pesan video                 |
-| Menerima Pesan              | Pengguna | Menerima notifikasi pesan baru          | Menampilkan pesan pada layar         |
-| Menyimpan Pesan             | Pengguna | Memilih pesan, memilih opsi             | Menyimpan pesan ke dalam penyimpanan |
-| Membuat Grup                | Pengguna | Memilih opsi membuat grup               | Membuat grup                         |
-| Mengirim Pesan di Grup      | Pengguna | Memilih grup, memasukkan pesan          | Mengirim pesan di grup               |
-| Panggilan Suara             | Pengguna | Memilih kontak, memilih panggilan suara | Memulai panggilan suara              |
-| Panggilan Video             | Pengguna | Memilih kontak, memilih panggilan video | Memulai panggilan video              |
-| Mengirim Berkas             | Pengguna | Memilih kontak, memilih file            | Mengirim berkas                      |
-| Menyimpan Riwayat Panggilan | Pengguna | Memilih opsi riwayat panggilan          | Menampilkan riwayat panggilan        |
-| Mengatur Notifikasi         | Pengguna | Masuk ke pengaturan notifikasi          | Mengatur notifikasi aplikasi         |
-| Buat Status Teman           | Pengguna | Masuk ke opsi buat status               | Membuat status teman                 |
-| Melihat Status Teman        | Pengguna | Memilih opsi melihat status             | Menampilkan status teman             |
-| Lihat Profil teman          | Pengguna | Memilih kontak, memilih profil          | Menampilkan profil teman             |
-| Ubah Profile                | Pengguna | Masuk ke pengaturan profil              | Mengubah data profil pengguna        |
-
 **CLASS DIAGRAM**
+
+```plantuml
+
+@startuml
+
+class User {
+    -id: int
+    -name: string
+    -phone_number: string
+    -profile_picture: string
+    -status: string
+    +getName(): string
+    +setName(name: string): void
+    +getPhoneNumber(): string
+    +setPhoneNumber(phone_number: string): void
+    +getProfilePicture(): string
+    +setProfilePicture(profile_picture: string): void
+    +getStatus(): string
+    +setStatus(status: string): void
+}
+
+class Chat {
+    -id: int
+    -sender_id: int
+    -receiver_id: int
+    -message_type: string
+    -message_content: string
+    -created_at: date
+    -updated_at: date
+    +getId(): int
+    +getSender(): User
+    +setSender(sender: User): void
+    +getReceiver(): User
+    +setReceiver(receiver: User): void
+    +getMessageType(): string
+    +setMessageType(message_type: string): void
+    +getMessageContent(): string
+    +setMessageContent(message_content: string): void
+    +getCreatedAt(): date
+    +setCreatedAt(created_at: date): void
+    +getUpdatedAt(): date
+    +setUpdatedAt(updated_at: date): void
+}
+
+class Group {
+    -id: int
+    -name: string
+    -members: List<User>
+    -created_at: date
+    -updated_at: date
+    +getId(): int
+    +getName(): string
+    +setName(name: string): void
+    +getMembers(): List<User>
+    +setMembers(members: List<User>): void
+    +getCreatedAt(): date
+    +setCreatedAt(created_at: date): void
+    +getUpdatedAt(): date
+    +setUpdatedAt(updated_at: date): void
+    +addMember(user: User): void
+    +removeMember(user: User): void
+    +sendMessage(sender: User, message_content: string): void
+}
+
+class Call {
+    -id: int
+    -caller: User
+    -receiver: User
+    -call_type: string
+    -call_duration: int
+    -call_start_time: date
+    -call_end_time: date
+    +getId(): int
+    +getCaller(): User
+    +setCaller(caller: User): void
+    +getReceiver(): User
+    +setReceiver(receiver: User): void
+    +getCallType(): string
+    +setCallType(call_type: string): void
+    +getCallDuration(): int
+    +setCallDuration(call_duration: int): void
+    +getCallStartTime(): date
+    +setCallStartTime(call_start_time: date): void
+    +getCallEndTime(): date
+    +setCallEndTime(call_end_time: date): void
+    +startCall(caller: User, receiver: User, call_type: string): void
+    +endCall(call_duration: int): void
+}
+
+class Notification {
+    -id: int
+    -user: User
+    -message: string
+    -created_at: date
+    +getId(): int
+    +getUser(): User
+    +setUser(user: User): void
+    +getMessage(): string
+    +setMessage(message: string): void
+    +getCreatedAt(): date
+    +setCreatedAt(created_at: date): void
+}
+
+class Status {
+    -id: int
+    -user: User
+    -status_content: string
+    -created_at: date
+    +getId(): int
+    +getUser(): User
+    +setUser(user: User): void
+    +getStatusContent(): string
+    +setStatusContent(status_content: string): void
+    +getCreatedAt(): date
+    +setCreatedAt(created_at: date): void
+}
+
+class File {
+    -id: int
+    -name: string
+    -path: string
+    -size: int
+    -created_at: date
+    +getId(): int
+    +getName(): string
+    +setName(name: string): void
+    +getPath(): string
+    +setPath(path: string): void
+    +getSize(): int
+    +setSize(size: int): void
+    +getCreatedAt(): date
+    +setCreatedAt(created_at: date): void
+}
+User *-- Chat
+User *-- Call
+User *-- Notification
+User *-- Status
+User *-- File
+
+Chat -- Group
+Group *-- User
+
+Call -- User
+
+Notification -- User
+
+Status -- User
+
+File -- Chat
+File -- Group
+File -- Call
+
+@enduml
+
+```
 
 # No 8
 
