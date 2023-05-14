@@ -343,7 +343,9 @@ Jawab:
 
 **Video Demo Project**
 
-![Video Demo](Screenshot_Aplikasi/DemoWA.mp4)
+![](Screenshot_Aplikasi/DemoWA.mp4)
+
+**[Link Youtube](https://youtu.be/XR-BveZi0fU)**
 
 # No 10
 
