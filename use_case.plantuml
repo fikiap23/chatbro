@@ -1,0 +1,29 @@
+@startuml
+left to right direction
+
+actor User
+
+rectangle Aplikasi_WhatsApp {
+  usecase Registrasi
+  usecase Lihat_Kontak
+  usecase Mengirim_Pesan_Teks
+  usecase Mengirim_Pesan_Suara
+  usecase Mengirim_Pesan_Video
+  usecase Panggilan_Suara
+  usecase Panggilan_Video
+  usecase Menerima_Pesan
+  usecase Membuat_Grup
+  usecase Mengirim_Pesan_di_Grup
+
+  User --> Registrasi
+  User --> Lihat_Kontak
+  User --> Mengirim_Pesan_Teks
+  User --> Mengirim_Pesan_Suara
+  User --> Mengirim_Pesan_Video
+  User --> Panggilan_Suara
+  User --> Panggilan_Video
+  User --> Menerima_Pesan
+  User --> Membuat_Grup
+  User --> Mengirim_Pesan_di_Grup
+}
+@enduml
