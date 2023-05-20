@@ -1,29 +1,32 @@
 @startuml
+
 left to right direction
+actor User as U
+rectangle WhatsApp {
+  U -- (Daftar) 
+  U -- (Buat Grup)
+  U -- (Chat dengan Kontak)
+  U -- (Profile Setting)
+  U -- (Kelola Akun)
+ 
 
-actor User
+  (Daftar) --> (Buat Profil)
+  (Daftar) --> (Verifikasi OTP Nomor Telepon)
+  (Daftar) --> (Masukkan Nomor Telepon)
 
-rectangle Aplikasi_WhatsApp {
-  usecase Registrasi
-  usecase Lihat_Kontak
-  usecase Mengirim_Pesan_Teks
-  usecase Mengirim_Pesan_Suara
-  usecase Mengirim_Pesan_Video
-  usecase Panggilan_Suara
-  usecase Panggilan_Video
-  usecase Menerima_Pesan
-  usecase Membuat_Grup
-  usecase Mengirim_Pesan_di_Grup
+  (Chat dengan Kontak) --> (Kirim Lokasi)
+  (Chat dengan Kontak) --> (Kirim Emoji/Stiker)
+  (Chat dengan Kontak) --> (Kirim Img/Video/Audio)
+  (Chat dengan Kontak) --> (Kirim Teks)
+  
+  (Profile Setting) --> (Edit Foto Profile)
+  (Profile Setting) --> (Edit Info Status)
+  
+  (Kelola Akun) --> (Hapus Akun)
+  (Kelola Akun) --> (Ubah Nomer)
+  (Kelola Akun) --> (Privasi Setting)
 
-  User --> Registrasi
-  User --> Lihat_Kontak
-  User --> Mengirim_Pesan_Teks
-  User --> Mengirim_Pesan_Suara
-  User --> Mengirim_Pesan_Video
-  User --> Panggilan_Suara
-  User --> Panggilan_Video
-  User --> Menerima_Pesan
-  User --> Membuat_Grup
-  User --> Mengirim_Pesan_di_Grup
+
 }
+
 @enduml
