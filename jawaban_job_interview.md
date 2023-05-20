@@ -337,7 +337,7 @@ rectangle WhatsApp {
 
 **CLASS DIAGRAM**
 
-<img src="Screenshot_Aplikasi/class_diagram.png" alt="alt text" width="300">
+<img src="Screenshot_Aplikasi/class_diagram.png" alt="alt text" width="600">
 
 # No 8
 
