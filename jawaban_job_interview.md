@@ -354,35 +354,143 @@ Jawab:
 - Implementasikan method-method yang dibutuhkan dalam setiap kelas, seperti method untuk mengirim pesan, menerima pesan, membuat grup, dan sebagainya.
 - Uji coba model OOP yang telah dibuat untuk memastikan konsistensi dan fungsionalitasnya.
 
-**DFD**
+**Diagram Urutan (Sequence Diagram)**
 
 ```plantuml
 @startuml
+skinparam participantPadding 20
+
 actor User
 
-User -> WhatsApp: Buka Aplikasi
+participant "Aplikasi WhatsApp" as App
+participant "Server WhatsApp" as Server
+participant "Penerima Pesan" as Receiver
 
-WhatsApp -> WhatsApp: Tampilkan Daftar Kontak
+User -> App: Membuka Aplikasi
+activate App
 
-User -> WhatsApp: Pilih Kontak
+App -> Server: Memulai sesi
+activate Server
 
-WhatsApp -> WhatsApp: Tampilkan Layar Pesan
+Server --> App: Mengirim status sesi terhubung
+deactivate Server
 
-User -> WhatsApp: Ketik Pesan
+App -> User: Menampilkan antarmuka pengguna
 
-User -> WhatsApp: Tekan Tombol Kirim
+User -> App: Registrasi
+activate User
+User -> App: Masukkan informasi pendaftaran
+App -> Server: Mengirim informasi pendaftaran
+activate Server
+Server --> App: Mengirim status pendaftaran berhasil
+deactivate Server
+App -> User: Menampilkan status pendaftaran
+deactivate App
 
-WhatsApp -> Server: Kirim Pesan Teks
+User -> App: Menambahkan kontak
+activate User
+User -> App: Masukkan informasi kontak
+App -> Server: Menyimpan informasi kontak
+activate Server
+Server --> App: Mengirim status kontak berhasil ditambahkan
+deactivate Server
+App -> User: Menampilkan status kontak berhasil ditambahkan
+deactivate App
 
-Server -> Server: Validasi Pesan Teks
+User -> App: Memilih kontak
+activate User
 
-Server -> Server: Simpan Pesan ke Database
+User -> App: Mengirim pesan teks
+App -> Server: Mengirim pesan ke kontak
+activate Server
 
-Server -> Penerima: Kirim Notifikasi Pesan Baru
+Server -> Receiver: Mengirim pesan
+activate Receiver
+Receiver -> Server: Mengirim notifikasi pengiriman
+deactivate Receiver
+Server -> App: Mengirim status pengiriman
+deactivate Server
 
-Penerima -> WhatsApp: Terima Notifikasi Pesan Baru
+App -> User: Menampilkan status pengiriman
+deactivate App
 
-WhatsApp -> WhatsApp: Tampilkan Pesan Baru
+User -> App: Menerima pesan teks
+activate App
+
+App -> User: Menampilkan pesan teks
+deactivate App
+
+User -> App: Membuka obrolan suara
+App -> Server: Memulai panggilan suara
+activate Server
+
+Server -> Receiver: Menerima panggilan suara
+activate Receiver
+Receiver -> Server: Mengirim notifikasi panggilan diterima
+deactivate Receiver
+Server -> App: Mengirim status panggilan diterima
+deactivate Server
+
+App -> User: Menampilkan status panggilan diterima
+deactivate App
+
+User -> App: Mengakhiri panggilan suara
+App -> Server: Mengakhiri panggilan suara
+activate Server
+
+Server -> Receiver: Mengirim notifikasi panggilan berakhir
+activate Receiver
+deactivate Receiver
+Server -> App: Mengirim status panggilan berakhir
+deactivate Server
+
+App -> User: Menampilkan status panggilan berakhir
+deactivate App
+
+User -> App: Mengirim balasan pesan teks
+activate User
+User -> App: Mengirim pesan
+App -> Server: Mengirim pesan ke kontak
+activate Server
+
+Server -> Receiver: Mengirim pesan balasan
+activate Receiver
+Receiver -> Server: Mengirim notifikasi pengiriman
+deactivate Receiver
+Server -> App: Mengirim status pengiriman
+deactivate Server
+
+App -> User: Menampilkan status pengiriman
+deactivate App
+
+User -> App: Melihat status kontak
+activate User
+User -> App: Memilih kontak untuk melihat status
+App -> Server: Mengambil status kontak
+activate Server
+Server --> App: Mengirim status kontak
+deactivate Server
+App -> User: Menampilkan status kontak
+deactivate App
+
+User -> App: Mengubah profil
+activate User
+User -> App: Memasukkan informasi profil baru
+App -> Server: Mengirim informasi profil baru
+activate Server
+Server --> App: Mengirim status perubahan profil berhasil
+deactivate Server
+App -> User: Menampilkan status perubahan profil berhasil
+deactivate App
+
+User -> App: Menutup Aplikasi
+deactivate User
+
+App -> Server: Mengakhiri sesi
+activate Server
+
+Server --> App: Mengirim status sesi terputus
+deactivate Server
 @enduml
 ```
 
