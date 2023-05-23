@@ -29,6 +29,10 @@ class ContactsListGroup extends ConsumerWidget {
                       return const Loader();
                     }
 
+                    // urutkan list berdasarkan waktu terkirim, pesan terbaru di atas
+                    snapshot.data!
+                        .sort((a, b) => b.timeSent.compareTo(a.timeSent));
+
                     return ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
