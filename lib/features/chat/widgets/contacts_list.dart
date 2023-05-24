@@ -94,7 +94,7 @@ class ContactsList extends ConsumerWidget {
                                           arguments: {
                                             'user': UserModel(
                                               name: snap.data ??
-                                                  chatContactData.phoneNumber,
+                                                  chatContactData.name,
                                               uid: chatContactData.contactId,
                                               profilePic:
                                                   chatContactData.profilePic,
@@ -113,6 +113,8 @@ class ContactsList extends ConsumerWidget {
                                               timeSent: DateTime.now(),
                                             ),
                                             'isGroupChat': false,
+                                            'nameContact': snap.data ??
+                                                chatContactData.phoneNumber,
                                           });
                                     },
                                     child: Padding(

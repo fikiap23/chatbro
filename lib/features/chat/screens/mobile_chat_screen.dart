@@ -16,12 +16,14 @@ import 'package:chatbro/models/user_model.dart';
 class MobileChatScreen extends ConsumerWidget {
   static const String routeName = '/mobile-chat-screen';
   final UserModel user;
+  final String nameContact;
   final Group group;
   final bool isGroupChat;
 
   const MobileChatScreen({
     Key? key,
     required this.user,
+    required this.nameContact,
     required this.group,
     required this.isGroupChat,
   }) : super(key: key);
@@ -89,7 +91,7 @@ class MobileChatScreen extends ConsumerWidget {
                     return Column(
                       children: [
                         InkWell(
-                          child: Text(user.name),
+                          child: Text(nameContact),
                           onTap: () {
                             Navigator.pushNamed(
                               context,
