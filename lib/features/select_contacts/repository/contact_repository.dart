@@ -43,7 +43,16 @@ class ContactRepository {
             var firebaseContact = UserModel.fromMap(firebaseContactData.data());
             if ("+${contact.phones[0].number.replaceAll(RegExp(r'[^0-9]'), '')}" ==
                 firebaseContact.phoneNumber) {
-              firebaseContacts.add(firebaseContact);
+              firebaseContacts.add(UserModel(
+                name: contact
+                    .displayName, // Menggunakan displayName dari kontak ponsel
+                uid: firebaseContact.uid,
+                profilePic: firebaseContact.profilePic,
+                isOnline: firebaseContact.isOnline,
+                // lastSeen: firebaseContact.lastSeen,
+                phoneNumber: firebaseContact.phoneNumber,
+                groupId: firebaseContact.groupId,
+              ));
               isContactFound = true;
               break;
             }
