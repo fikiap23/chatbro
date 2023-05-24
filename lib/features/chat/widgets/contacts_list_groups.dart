@@ -85,6 +85,7 @@ class ContactsListGroup extends ConsumerWidget {
                                       timeSent: DateTime.now(),
                                     ),
                                     'isGroupChat': true,
+                                    'nameContact': '',
                                   },
                                 );
                               },
