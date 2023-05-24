@@ -38,17 +38,29 @@ class _ChatListState extends ConsumerState<ChatList> {
   }
 
   String displayTextDateContainer(Message messageData) {
-    final currentDate = DateTime.now();
-    final today =
-        DateTime(currentDate.year, currentDate.month, currentDate.day);
-    final weekAgo = today.subtract(const Duration(days: 7));
-    final timeDifference = currentDate.difference(messageData.timeSent);
-    if (timeDifference < const Duration(days: 1)) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day)
+        .toLocal(); // Konversi ke zona waktu lokal
+    final yesterday =
+        today.subtract(const Duration(days: 1)); // Tanggal kemarin
+    final weekAgo = today
+        .subtract(const Duration(days: 7))
+        .toLocal(); // Konversi ke zona waktu lokal
+    final timeSent =
+        messageData.timeSent.toLocal(); // Konversi ke zona waktu lokal
+
+    if (timeSent.year == now.year &&
+        timeSent.month == now.month &&
+        timeSent.day == now.day) {
       return "Hari Ini";
-    } else if (messageData.timeSent.isAfter(weekAgo)) {
-      return DateFormat('EEEE', 'id').format(messageData.timeSent);
+    } else if (timeSent.year == yesterday.year &&
+        timeSent.month == yesterday.month &&
+        timeSent.day == yesterday.day) {
+      return "Kemarin";
+    } else if (timeSent.isAfter(weekAgo)) {
+      return DateFormat('EEEE', 'id').format(timeSent);
     } else {
-      return DateFormat('d MMM y', 'id').format(messageData.timeSent);
+      return DateFormat('d MMM y', 'id').format(timeSent);
     }
   }
 

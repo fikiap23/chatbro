@@ -14,6 +14,27 @@ import 'package:chatbro/models/group.dart';
 class ContactsListGroup extends ConsumerWidget {
   const ContactsListGroup({Key? key}) : super(key: key);
 
+  String getLastMessageFormattedDate(DateTime time) {
+    final now = DateTime.now();
+    final timeSent = time.toLocal(); // Konversi ke zona waktu lokal
+
+    String formattedDate = '';
+
+    if (timeSent.year == now.year &&
+        timeSent.month == now.month &&
+        timeSent.day == now.day) {
+      formattedDate = DateFormat.Hm().format(timeSent);
+    } else if (timeSent.year == now.year &&
+        timeSent.month == now.month &&
+        timeSent.day == now.day - 1) {
+      formattedDate = 'Kemarin';
+    } else {
+      formattedDate = DateFormat('dd/MM/yyyy').format(timeSent);
+    }
+
+    return formattedDate;
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
@@ -41,23 +62,8 @@ class ContactsListGroup extends ConsumerWidget {
                         var groupData = snapshot.data![index];
 
                         // mengurutkan waktu pesan terkahir
-                        String formattedDate = '';
-                        if (groupData.timeSent
-                                .difference(DateTime.now())
-                                .inDays ==
-                            0) {
-                          formattedDate =
-                              DateFormat.Hm().format(groupData.timeSent);
-                        } else if (groupData.timeSent
-                                .difference(DateTime.now()
-                                    .subtract(const Duration(days: 1)))
-                                .inDays ==
-                            0) {
-                          formattedDate = 'Kemarin';
-                        } else {
-                          formattedDate = DateFormat('dd/MM/yyyy')
-                              .format(groupData.timeSent);
-                        }
+                        String formattedDate =
+                            getLastMessageFormattedDate(groupData.timeSent);
 
                         return Column(
                           children: [

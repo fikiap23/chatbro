@@ -16,18 +16,24 @@ class ContactsList extends ConsumerWidget {
   const ContactsList({Key? key}) : super(key: key);
 
   String getLastMessageFormattedDate(ChatContact chatContactData) {
-    // mengurutkan waktu pesan terkahir
+    final now = DateTime.now();
+    final timeSent =
+        chatContactData.timeSent.toLocal(); // Konversi ke zona waktu lokal
+
     String formattedDate = '';
-    if (chatContactData.timeSent.difference(DateTime.now()).inDays == 0) {
-      formattedDate = DateFormat.Hm().format(chatContactData.timeSent);
-    } else if (chatContactData.timeSent
-            .difference(DateTime.now().subtract(const Duration(days: 1)))
-            .inDays ==
-        0) {
+
+    if (timeSent.year == now.year &&
+        timeSent.month == now.month &&
+        timeSent.day == now.day) {
+      formattedDate = DateFormat.Hm().format(timeSent);
+    } else if (timeSent.year == now.year &&
+        timeSent.month == now.month &&
+        timeSent.day == now.day - 1) {
       formattedDate = 'Kemarin';
     } else {
-      formattedDate = DateFormat('dd/MM/yyyy').format(chatContactData.timeSent);
+      formattedDate = DateFormat('dd/MM/yyyy').format(timeSent);
     }
+
     return formattedDate;
   }
 
