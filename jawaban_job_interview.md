@@ -316,26 +316,26 @@ rectangle WhatsApp {
 ```
 
 **USE CASE PRIORITY**
-| Use Case | Priority | Status |
-|------------------------------|----------|--------|
-| Registrasi | Tinggi | Selesai
-| Liat kontak | Tinggi | Selesai |
-| Mengirim Pesan Teks | Tinggi | Selesai |
-| Mengirim Pesan Suara | Tinggi | Selesai |
-| Mengirim Pesan Video | Tinggi | Selesai |
-| Menerima Pesan | Tinggi | Selesai |
-| Menyimpan Pesan | Tinggi | Selesai |
-| Membuat Grup | Tinggi | Selesai
-| Mengirim Pesan di Grup | Tinggi | Selesai |
-| Panggilan Suara | Tinggi | **Belum** |
-| Panggilan Video | Tinggi | **Ongoing** |
-| Mengirim Berkas | Tinggi | **Belum** |
-| Menyimpan Riwayat Panggilan | Sedang | **Baru UI** |
-| Mengatur Notifikasi | Sedang | **Belum** |
-| Buat Status Teman | Sedang | **Baru Ui** |
-| Melihat Status Teman | Sedang | **Baru Ui** |
-| Liat Profil teman | Sedang | Selesai |
-| Ubah profile | Sedang | **Belum** |
+| Use Case | Priority | Status | Class Terkait |
+|---------------------------|----------|----------|----------------------------------|
+| Registrasi | Tinggi | Selesai | User, AuthController |
+| Liat kontak | Tinggi | Selesai | Contact, ContactController |
+| Mengirim Pesan Teks | Tinggi | Selesai | Message, ChatController |
+| Mengirim Pesan Suara | Tinggi | Selesai | Message, ChatController |
+| Mengirim Pesan Video | Tinggi | Selesai | Message, ChatController |
+| Menerima Pesan | Tinggi | Selesai | Message, ChatController |
+| Menyimpan Pesan | Tinggi | Selesai | Message, ChatController |
+| Membuat Grup | Tinggi | Selesai | Group, GroupController |
+| Mengirim Pesan di Grup | Tinggi | Selesai | Group, Message, GroupController, ChatController |
+| Panggilan Suara | Tinggi | Belum | Call, CallController |
+| Panggilan Video | Tinggi | Ongoing | Call, CallController |
+| Mengirim Berkas | Tinggi | Belum | File, FileController |
+| Menyimpan Riwayat Panggilan | Sedang | Baru UI | Call, CallController |
+| Mengatur Notifikasi | Sedang | Belum | Notification, NotificationController |
+| Buat Status Teman | Sedang | Baru UI | Status, StatusController |
+| Melihat Status Teman | Sedang | Baru UI | Status, StatusController |
+| Lihat Profil teman | Sedang | Selesai | User, UserController |
+| Ubah pengaturan | Sedang | Belum | Setting, SettingController |
 
 **CLASS DIAGRAM**
 
