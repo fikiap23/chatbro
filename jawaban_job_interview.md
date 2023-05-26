@@ -67,7 +67,7 @@ Jawab:
 - Inheritance: penurunan sikap dan perilaku dari Orang Tua (Parent / Superclass) ke Anaknya (Child / Subclass).
 - Polymorphism :Subclass dapat memiliki implementasi method yang berbeda dari Superclass nya (banyak bentuk).
 
-Paradigma pemrograman berorientasi objek (OOP) banyak digunakan oleh developer karena memungkinkan pemrograman yang modular, reusabilitas kode, pengembangan aplikasi yang lebih besar dan kompleks, abstraksi kompleksitas, kolaborasi tim yang efektif, dan peningkatan keamanan. OOP menyediakan kerangka kerja yang terstruktur dan mudah dipahami, yang membuat pengembangan perangkat lunak lebih efisien dan mudah dipelihara.
+Paradigma pemrograman berorientasi objek (OOP) banyak digunakan oleh developer karena memungkinkan pemrograman yang modular, reusabilitas kode, memudahkan pengembangan aplikasi yang lebih besar dan kompleks, kolaborasi tim yang efektif, dan peningkatan keamanan. OOP menyediakan kerangka kerja yang terstruktur dan mudah dipahami, yang membuat pengembangan perangkat lunak lebih efisien dan mudah dipelihara.
 
 # No 4
 
@@ -79,56 +79,159 @@ Encapsulation membatasi akses langsung ke data atau metode di dalam kelas dan me
 
 - pada Dart akses modifier terdapat 2 yaitu publik dan private
 - Private ditandai dengan (\_) pada atribut atau methodnya. contoh dalam program saya
-- **\_saveDataToContactsSubcollection**
-- **\_saveMessageToMessageSubcollection**
 
 ```dart
-// fungsi untuk mengirim pesan text
-  void sendTextMessage({
-    required BuildContext context,
-    required String text,
-    required String recieverUserId,
-    required UserModel senderUser,
-    required MessageReply? messageReply,
-    required bool isGroupChat,
-  }) async {
+class _AuthRepository {
+  final FirebaseAuth _auth;
+  final FirebaseFirestore _firestore;
+  // Constructor AuthRepository
+  _AuthRepository({
+    required FirebaseAuth auth,
+    required FirebaseFirestore firestore,
+  })  : _auth = auth,
+        _firestore = firestore;
+
+// Method untuk mengambil data user saat ini
+  Future<UserModel?> getCurrentUserData() async {
+    var userData =
+        await _firestore.collection('users').doc(_auth.currentUser?.uid).get();
+
+    UserModel? user;
+    if (userData.data() != null) {
+      user = UserModel.fromMap(userData.data()!);
+    }
+    return user;
+  }
+
+// Method untuk melakukan sign in dengan nomor telepon
+  Future<void> signInWithPhone(BuildContext context, String phoneNumber) async {
     try {
-      var timeSent = DateTime.now();
-      UserModel? recieverUserData;
-
-      if (!isGroupChat) {
-        var userDataMap =
-            await firestore.collection('users').doc(recieverUserId).get();
-        recieverUserData = UserModel.fromMap(userDataMap.data()!);
-      }
-
-      var messageId = const Uuid().v1();
-
-      _saveDataToContactsSubcollection(
-        senderUser,
-        recieverUserData,
-        text,
-        timeSent,
-        recieverUserId,
-        isGroupChat,
+      showLoadingDialog(
+        context: context,
+        message: "Sending a verification code to $phoneNumber",
       );
-
-      _saveMessageToMessageSubcollection(
-        recieverUserId: recieverUserId,
-        text: text,
-        timeSent: timeSent,
-        messageType: MessageEnum.text,
-        messageId: messageId,
-        username: senderUser.name,
-        messageReply: messageReply,
-        recieverUserName: recieverUserData?.name,
-        senderUsername: senderUser.name,
-        isGroupChat: isGroupChat,
+      await _auth.verifyPhoneNumber(
+        phoneNumber: phoneNumber,
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          await _auth.signInWithCredential(credential);
+          // ignore: use_build_context_synchronously
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            UserInformationScreen.routeName,
+            (route) => false,
+          );
+        },
+        verificationFailed: (e) {
+          showAlertDialog(context: context, message: e.toString());
+        },
+        codeSent: ((String verificationId, int? resendToken) async {
+          Navigator.pushNamed(
+            context,
+            OTPScreen.routeName,
+            arguments: verificationId,
+          );
+        }),
+        codeAutoRetrievalTimeout: (String verificationId) {},
       );
-    } catch (e) {
-      showSnackBar(context: context, content: e.toString());
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+      showAlertDialog(context: context, message: e.message!);
     }
   }
+
+// Method untuk memverifikasi kode OTP
+  void verifyOTP({
+    required BuildContext context,
+    required String verificationId,
+    required String userOTP,
+  }) async {
+    try {
+      showLoadingDialog(
+        context: context,
+        message: 'Verifiying code ... ',
+      );
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: verificationId,
+        smsCode: userOTP,
+      );
+      await _auth.signInWithCredential(credential);
+      // ignore: use_build_context_synchronously
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        UserInformationScreen.routeName,
+        (route) => false,
+      );
+    } on FirebaseAuthException catch (e) {
+      showAlertDialog(context: context, message: e.message!);
+    }
+  }
+
+// Method untuk menyimpan data user ke firebase
+  void saveUserDataToFirebase({
+    required String name,
+    required File? profilePic,
+    required ProviderRef ref,
+    required BuildContext context,
+  }) async {
+    try {
+      showLoadingDialog(
+        context: context,
+        message: "Saving user info ... ",
+      );
+      String uid = _auth.currentUser!.uid;
+      String photoUrl =
+          'https://png.pngitem.com/pimgs/s/649-6490124_katie-notopoulos-katienotopoulos-i-write-about-tech-round.png';
+
+      if (profilePic != null) {
+        photoUrl = await ref
+            .read(commonFirebaseStorageRepositoryProvider)
+            .storeFileToFirebase(
+              'profilePic/$uid',
+              profilePic,
+            );
+      }
+
+      var user = UserModel(
+        name: name,
+        uid: uid,
+        profilePic: photoUrl,
+        isOnline: true,
+        phoneNumber: _auth.currentUser!.phoneNumber!,
+        groupId: [],
+      );
+
+      await _firestore.collection('users').doc(uid).set(user.toMap());
+
+      // ignore: use_build_context_synchronously
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const MobileLayoutScreen(),
+        ),
+        (route) => false,
+      );
+    } catch (e) {
+      showAlertDialog(context: context, message: e.toString());
+    }
+  }
+
+// Mendapatkan data pengguna dari Firestore
+  Stream<UserModel> userData(String userId) {
+    return _firestore.collection('users').doc(userId).snapshots().map(
+          (event) => UserModel.fromMap(
+            event.data()!,
+          ),
+        );
+  }
+
+// Mengatur status pengguna apakah sedang online atau offline
+  void setUserState(bool isOnline) async {
+    await _firestore.collection('users').doc(_auth.currentUser!.uid).update({
+      'isOnline': isOnline,
+    });
+  }
+}
+
 ```
 
 # No 5
@@ -139,7 +242,7 @@ Jawab:
 
 Abstraction: Memperlihatkan fungsi utama dari Class yang dibutuhkan oleh publik dan menyembunyikan detail pelaksanaannya.
 
-- [Abstraction Auth](https://gitlab.com/fikiaprian23/TA_OOP/-/blob/master/lib/features/auth/abstraction/abstract.dart)
+- [Abstraction Auth](https://gitlab.com/fikiaprian23/TA_OOP/-/blob/master/lib/features/auth/abstraction/abstract_auth.dart)
 - [Abstraction Call](https://gitlab.com/fikiaprian23/TA_OOP/-/blob/master/lib/features/call/abstraction/abstrct_call.dart)
 - [Abstraction Chat](https://gitlab.com/fikiaprian23/TA_OOP/-/blob/master/lib/features/chat/abstraction/abstract_chat.dart)
 - [Abstraction Group](https://gitlab.com/fikiaprian23/TA_OOP/-/blob/master/lib/features/group/abstraction/abstract_group.dart)
@@ -280,25 +383,27 @@ Jawab:
 ```plantuml
 
 @startuml
-
 left to right direction
 actor User as U
+actor "Customer Service" as CS
+
 rectangle WhatsApp {
   U -- (Daftar)
   U -- (Buat Grup)
-  U -- (Chat dengan Kontak)
+  U -- (Chat)
   U -- (Profile Setting)
   U -- (Kelola Akun)
+  U -- (Customer Support): laporkan keluhan
+  CS -- (Customer Support)
 
-
-  (Daftar) --> (Buat Profil)
+ (Daftar) --> (Buat Profil)
   (Daftar) --> (Verifikasi OTP Nomor Telepon)
   (Daftar) --> (Masukkan Nomor Telepon)
 
-  (Chat dengan Kontak) --> (Kirim Lokasi)
-  (Chat dengan Kontak) --> (Kirim Emoji/Stiker)
-  (Chat dengan Kontak) --> (Kirim Img/Video/Audio)
-  (Chat dengan Kontak) --> (Kirim Teks)
+  (Chat) --> (Kirim Lokasi)
+  (Chat) --> (Kirim Emoji/Stiker)
+  (Chat) --> (Kirim Img/Video/Audio)
+  (Chat) --> (Kirim Teks)
 
   (Profile Setting) --> (Edit Foto Profile)
   (Profile Setting) --> (Edit Info Status)
@@ -307,11 +412,16 @@ rectangle WhatsApp {
   (Kelola Akun) --> (Ubah Nomer)
   (Kelola Akun) --> (Privasi Setting)
 
+  (Customer Support) --> (Melihat Chat)
+(Customer Support) --> (Memberikan Informasi)
+(Customer Support) --> (Pulihkan akun)
 
+(Melihat Chat) --> (Mengirim Pesan Balasan)
+(Memberikan Informasi) --> (Mengirim Pesan Balasan)
+(Pulihkan akun) --> (Memverifikasi Akun)
 }
 
 @enduml
-
 
 ```
 

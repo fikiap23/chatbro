@@ -1,23 +1,25 @@
 @startuml
-
 left to right direction
 actor User as U
+actor "Customer Service" as CS
+
 rectangle WhatsApp {
   U -- (Daftar) 
   U -- (Buat Grup)
-  U -- (Chat dengan Kontak)
+  U -- (Chat)
   U -- (Profile Setting)
   U -- (Kelola Akun)
- 
+  U -- (Customer Support): laporkan keluhan
+  CS -- (Customer Support) 
 
-  (Daftar) --> (Buat Profil)
+ (Daftar) --> (Buat Profil)
   (Daftar) --> (Verifikasi OTP Nomor Telepon)
   (Daftar) --> (Masukkan Nomor Telepon)
 
-  (Chat dengan Kontak) --> (Kirim Lokasi)
-  (Chat dengan Kontak) --> (Kirim Emoji/Stiker)
-  (Chat dengan Kontak) --> (Kirim Img/Video/Audio)
-  (Chat dengan Kontak) --> (Kirim Teks)
+  (Chat) --> (Kirim Lokasi)
+  (Chat) --> (Kirim Emoji/Stiker)
+  (Chat) --> (Kirim Img/Video/Audio)
+  (Chat) --> (Kirim Teks)
   
   (Profile Setting) --> (Edit Foto Profile)
   (Profile Setting) --> (Edit Info Status)
@@ -26,7 +28,13 @@ rectangle WhatsApp {
   (Kelola Akun) --> (Ubah Nomer)
   (Kelola Akun) --> (Privasi Setting)
 
+  (Customer Support) --> (Melihat Chat)
+(Customer Support) --> (Memberikan Informasi)
+(Customer Support) --> (Pulihkan akun)
 
+(Melihat Chat) --> (Mengirim Pesan Balasan)
+(Memberikan Informasi) --> (Mengirim Pesan Balasan)
+(Pulihkan akun) --> (Memverifikasi Akun)
 }
 
 @enduml

@@ -19,7 +19,7 @@ final userDataAuthProvider = FutureProvider((ref) {
 });
 
 class AuthController implements AbstractAuth {
-  final AuthRepository authRepository;
+  final AuthRepositoryInterface authRepository;
   final ProviderRef ref;
 
   AuthController({

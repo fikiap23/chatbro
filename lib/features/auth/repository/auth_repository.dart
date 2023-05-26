@@ -14,25 +14,28 @@ import 'package:chatbro/mobile_layout_screen.dart';
 
 // Membuat provider untuk AuthRepository
 final authRepositoryProvider = Provider(
-  (ref) => AuthRepository(
-    auth: FirebaseAuth.instance,
-    firestore: FirebaseFirestore.instance,
+  (ref) => AuthRepositoryInterface(
+    repository: _AuthRepository(
+      auth: FirebaseAuth.instance,
+      firestore: FirebaseFirestore.instance,
+    ),
   ),
 );
 
-class AuthRepository {
-  final FirebaseAuth auth;
-  final FirebaseFirestore firestore;
+class _AuthRepository {
+  final FirebaseAuth _auth;
+  final FirebaseFirestore _firestore;
   // Constructor AuthRepository
-  AuthRepository({
-    required this.auth,
-    required this.firestore,
-  });
+  _AuthRepository({
+    required FirebaseAuth auth,
+    required FirebaseFirestore firestore,
+  })  : _auth = auth,
+        _firestore = firestore;
 
 // Method untuk mengambil data user saat ini
   Future<UserModel?> getCurrentUserData() async {
     var userData =
-        await firestore.collection('users').doc(auth.currentUser?.uid).get();
+        await _firestore.collection('users').doc(_auth.currentUser?.uid).get();
 
     UserModel? user;
     if (userData.data() != null) {
@@ -48,10 +51,10 @@ class AuthRepository {
         context: context,
         message: "Sending a verification code to $phoneNumber",
       );
-      await auth.verifyPhoneNumber(
+      await _auth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
         verificationCompleted: (PhoneAuthCredential credential) async {
-          await auth.signInWithCredential(credential);
+          await _auth.signInWithCredential(credential);
           // ignore: use_build_context_synchronously
           Navigator.pushNamedAndRemoveUntil(
             context,
@@ -92,7 +95,7 @@ class AuthRepository {
         verificationId: verificationId,
         smsCode: userOTP,
       );
-      await auth.signInWithCredential(credential);
+      await _auth.signInWithCredential(credential);
       // ignore: use_build_context_synchronously
       Navigator.pushNamedAndRemoveUntil(
         context,
@@ -116,7 +119,7 @@ class AuthRepository {
         context: context,
         message: "Saving user info ... ",
       );
-      String uid = auth.currentUser!.uid;
+      String uid = _auth.currentUser!.uid;
       String photoUrl =
           'https://png.pngitem.com/pimgs/s/649-6490124_katie-notopoulos-katienotopoulos-i-write-about-tech-round.png';
 
@@ -134,11 +137,11 @@ class AuthRepository {
         uid: uid,
         profilePic: photoUrl,
         isOnline: true,
-        phoneNumber: auth.currentUser!.phoneNumber!,
+        phoneNumber: _auth.currentUser!.phoneNumber!,
         groupId: [],
       );
 
-      await firestore.collection('users').doc(uid).set(user.toMap());
+      await _firestore.collection('users').doc(uid).set(user.toMap());
 
       // ignore: use_build_context_synchronously
       Navigator.pushAndRemoveUntil(
@@ -155,7 +158,7 @@ class AuthRepository {
 
 // Mendapatkan data pengguna dari Firestore
   Stream<UserModel> userData(String userId) {
-    return firestore.collection('users').doc(userId).snapshots().map(
+    return _firestore.collection('users').doc(userId).snapshots().map(
           (event) => UserModel.fromMap(
             event.data()!,
           ),
@@ -164,8 +167,49 @@ class AuthRepository {
 
 // Mengatur status pengguna apakah sedang online atau offline
   void setUserState(bool isOnline) async {
-    await firestore.collection('users').doc(auth.currentUser!.uid).update({
+    await _firestore.collection('users').doc(_auth.currentUser!.uid).update({
       'isOnline': isOnline,
     });
   }
+}
+
+// Kelas AuthRepositoryInterface berfungsi sebagai antarmuka publik untuk berinteraksi dengan AuthRepository.
+class AuthRepositoryInterface {
+  final _AuthRepository _repository;
+
+  AuthRepositoryInterface({required _AuthRepository repository})
+      : _repository = repository;
+
+  Future<UserModel?> getCurrentUserData() => _repository.getCurrentUserData();
+
+  Future<void> signInWithPhone(BuildContext context, String phoneNumber) =>
+      _repository.signInWithPhone(context, phoneNumber);
+
+  void verifyOTP({
+    required BuildContext context,
+    required String verificationId,
+    required String userOTP,
+  }) =>
+      _repository.verifyOTP(
+        context: context,
+        verificationId: verificationId,
+        userOTP: userOTP,
+      );
+
+  void saveUserDataToFirebase({
+    required String name,
+    required File? profilePic,
+    required ProviderRef ref,
+    required BuildContext context,
+  }) =>
+      _repository.saveUserDataToFirebase(
+        name: name,
+        profilePic: profilePic,
+        ref: ref,
+        context: context,
+      );
+
+  Stream<UserModel> userData(String userId) => _repository.userData(userId);
+
+  void setUserState(bool isOnline) => _repository.setUserState(isOnline);
 }
