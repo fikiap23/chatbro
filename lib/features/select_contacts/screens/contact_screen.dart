@@ -142,6 +142,7 @@ class ContactScreen extends ConsumerWidget {
                                   timeSent: DateTime.now(),
                                 ),
                                 'isGroupChat': false,
+                                'nameContact': firebaseContacts.name
                               },
                             );
                           },
