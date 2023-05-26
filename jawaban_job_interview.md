@@ -66,6 +66,7 @@ Jawab:
 - Encapsulation: membatasi akses langsung ke data atau metod di dalam kelas dan mengatur akses tersebut.
 - Inheritance: penurunan sikap dan perilaku dari Orang Tua (Parent / Superclass) ke Anaknya (Child / Subclass).
 - Polymorphism :Subclass dapat memiliki implementasi method yang berbeda dari Superclass nya (banyak bentuk).
+  Paradigma pemrograman berorientasi objek (OOP) banyak digunakan oleh developer karena memungkinkan pemrograman yang modular, reusabilitas kode, pengembangan aplikasi yang lebih besar dan kompleks, abstraksi kompleksitas, kolaborasi tim yang efektif, dan peningkatan keamanan. OOP menyediakan kerangka kerja yang terstruktur dan mudah dipahami, yang membuat pengembangan perangkat lunak lebih efisien dan mudah dipelihara.
 
 # No 4
 
