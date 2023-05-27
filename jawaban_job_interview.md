@@ -54,6 +54,39 @@ Mampu menjelaskan algoritma dari solusi yang dibuat (Lampirkan link source code 
 
 Jawab:
 
+**Algoritma Chat**
+
+```plantuml
+@startuml
+start
+
+:Memulai pengiriman pesan;
+:Memperoleh waktu pengiriman saat ini;
+:Memeriksa ID chat?;
+
+if ( Obrolan grup?) then (ya)
+  :Mengupdate data terbaru obrolan grup;
+else (tidak)
+  :Membuat objek ChatContact untuk penerima;
+  :Menyimpan data ChatContact penerima;
+  :Membuat objek ChatContact untuk pengirim;
+  :Menyimpan data ChatContact pengirim;
+endif
+
+:Membuat objek pesan dengan informasi yang diberikan;
+if ( Obrolan grup?) then (ya)
+  :Menyimpan pesan ke subkoleksi obrolan grup;
+
+
+else (tidak)
+   :Menyimpan pesan ke subkoleksi obrolan penerima;
+  :Menyimpan pesan ke subkoleksi obrolan pengirim;
+endif
+
+stop
+@enduml
+```
+
 - [Pengimplementasian dari algoritma chat](https://gitlab.com/fikiaprian23/TA_OOP/-/blob/master/lib/features/chat/repositories/chat_repository.dart)
 
 <img src="Screenshot_Aplikasi/chat_gif.gif" alt="GIF" width="300" height="500">
