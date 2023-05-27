@@ -58,8 +58,7 @@ Jawab:
 
 <img src="Screenshot_Aplikasi/chat_gif.gif" alt="GIF" width="300" height="500">
 
--Masalah lain yang muncul adalah bagaimana cara menggunakan nama dari nomer kontak bukan dari nama user yg diprofile,
-masalah ini tidak dapat diselesaikan dengan menyimpan nama kontak ke database karena setiap orang bisa memberikan nama kontak kita yang berbeda.
+-Masalah lain yang muncul adalah bagaimana cara menggunakan nama dari nomer kontak bukan dari nama user yg diprofile.
 
 Misalnya, nomer kita akan disimpan oleh user
 
