@@ -89,6 +89,8 @@ stop
 
 - [Pengimplementasian dari algoritma chat](https://gitlab.com/fikiaprian23/TA_OOP/-/blob/master/lib/features/chat/repositories/chat_repository.dart)
 
+**Algoritma menampilkan nama kontak**
+
 <img src="Screenshot_Aplikasi/chat_gif.gif" alt="GIF" width="300" height="500">
 
 -Masalah lain yang muncul adalah bagaimana cara menggunakan nama dari nomer kontak bukan dari nama user yg diprofile.
