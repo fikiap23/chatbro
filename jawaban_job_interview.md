@@ -56,6 +56,55 @@ Jawab:
 
 - [Pengimplementasian dari algoritma chat](https://gitlab.com/fikiaprian23/TA_OOP/-/blob/master/lib/features/chat/repositories/chat_repository.dart)
 
+<img src="Screenshot_Aplikasi/chat_gif.gif" alt="GIF" width="300" height="500">
+
+-Masalah lain yang muncul adalah bagaimana cara menggunakan nama dari nomer kontak bukan dari nama user yg diprofile,
+masalah ini tidak dapat diselesaikan dengan menyimpan nama kontak ke database karena setiap orang bisa memberikan nama kontak kita yang berbeda.
+
+Misalnya, nomer kita akan disimpan oleh user
+
+- user1 memberi nama kontak kita budi
+- user2 memberi nama kontak kita budiman
+- user3 memberi nama kontak kita sarbudi
+
+tentu saja hal ini sulit diselesaikan dengan menyimpan nama kontak ke database karena akan terlalu banyak list namanya
+
+oleh karena itu saya membuat method getContactNameByNumber
+
+- method ini akan mengambil semua data kontak user
+- method ini meminta paramter nomer hp yng ingin dicari nama kontaknya
+- kemudian dicocokan dengan looping setiap nomernya hingga cocok
+- kalau nama ketemu akan mengambalikan nama kontak tsb
+- kalau tidak ketemu nama akan di isi nomer hp
+
+```dart
+  Future<String?> getContactNameByNumber(String phoneNumber) async {
+    try {
+      final contacts = await FlutterContacts.getContacts(withProperties: true);
+      String? contactName;
+
+      for (var contact in contacts) {
+        for (var phone in contact.phones) {
+          String formattedPhoneNumber =
+              '+${phone.number.replaceAll(RegExp(r'[^0-9]'), '')}';
+
+          if (formattedPhoneNumber == phoneNumber) {
+            contactName = contact.displayName;
+            break;
+          }
+        }
+      }
+
+      return contactName;
+    } catch (e) {
+      print('Error getting contacts: $e');
+      return null;
+    }
+  }
+```
+
+- hanya saja dengan algoritma ini membuat program tidak efesien karena kalau kita punya banyak kontak, maka sistem harus mencocokan satu-satu agar nama dapat ditampilkan
+
 # No 3
 
 Mampu menjelaskan konsep dasar OOP
