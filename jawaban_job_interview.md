@@ -446,6 +446,7 @@ rectangle WhatsApp {
 | Melihat Status Teman | Sedang | Baru UI | Status, StatusController |
 | Lihat Profil teman | Sedang | Selesai | User, UserController |
 | Ubah pengaturan | Sedang | Belum | Setting, SettingController |
+| Customer Support | Sedang | Belum | Customer,User,Setting, SettingController |
 
 **CLASS DIAGRAM**
 
