@@ -381,7 +381,6 @@ Jawab:
 **USE CASE DIAGRAM**
 
 ```plantuml
-
 @startuml
 left to right direction
 actor User as U
@@ -393,7 +392,7 @@ rectangle WhatsApp {
   U -- (Chat)
   U -- (Profile Setting)
   U -- (Kelola Akun)
-  U -- (Customer Support): laporkan keluhan
+  U -- (Customer Support)
   CS -- (Customer Support)
 
  (Daftar) --> (Buat Profil)
@@ -411,14 +410,13 @@ rectangle WhatsApp {
   (Kelola Akun) --> (Hapus Akun)
   (Kelola Akun) --> (Ubah Nomer)
   (Kelola Akun) --> (Privasi Setting)
+  (Kelola Akun) --> (Customer Support)
 
-  (Customer Support) --> (Melihat Chat)
-(Customer Support) --> (Memberikan Informasi)
-(Customer Support) --> (Pulihkan akun)
+(Customer Support) --> (Pusat Bantuan)
+(Customer Support) --> (Hubungi CS)
+(Customer Support) --> (Ketentuan dan kebijakan privasi)
 
-(Melihat Chat) --> (Mengirim Pesan Balasan)
-(Memberikan Informasi) --> (Mengirim Pesan Balasan)
-(Pulihkan akun) --> (Memverifikasi Akun)
+
 }
 
 @enduml
