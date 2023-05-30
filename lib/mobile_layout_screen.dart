@@ -3,6 +3,7 @@ import 'package:chatbro/features/chat/widgets/contacts_list_groups.dart';
 
 import 'package:chatbro/features/landing/screens/landing_screen.dart';
 import 'package:chatbro/features/status/screens/cantacts_status_screen.dart';
+import 'package:chatbro/features/status/screens/status_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
@@ -124,7 +125,7 @@ class _MobileLayoutScreenState extends ConsumerState<MobileLayoutScreen>
           children: [
             ContactsListGroup(),
             ContactsList(),
-            ContactStatusScreen(),
+            StatusScreen(),
             CallLogScreen(),
           ],
         ),

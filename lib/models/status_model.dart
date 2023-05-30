@@ -5,9 +5,11 @@ class Status {
   final List<String> photoUrl;
   final DateTime createdAt;
   final String profilePic;
+  final String caption;
   final String statusId;
   final List<String> whoCanSee;
   Status({
+    required this.caption,
     required this.uid,
     required this.username,
     required this.phoneNumber,
@@ -41,6 +43,7 @@ class Status {
       profilePic: map['profilePic'] ?? '',
       statusId: map['statusId'] ?? '',
       whoCanSee: List<String>.from(map['whoCanSee']),
+      caption: map['username'] ?? '',
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:chatbro/features/chat/screens/profile_screen.dart';
 import 'package:chatbro/features/select_contacts/screens/contact_screen.dart';
 import 'package:chatbro/features/status/screens/cantacts_status_screen.dart';
+import 'package:chatbro/features/status/screens/status_screen.dart';
 import 'package:chatbro/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:chatbro/common/widgets/error.dart';
@@ -58,10 +59,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         duration: const Duration(milliseconds: 800),
       );
 
-    case ContactStatusScreen.routeName:
+    case StatusScreen.routeName:
       // final status = settings.arguments as Status;
       return MaterialPageRoute(
-        builder: (context) => const ContactStatusScreen(),
+        builder: (context) => const StatusScreen(),
       );
     case CreateGroupScreen.routeName:
       return MaterialPageRoute(
