@@ -24,6 +24,7 @@ class Status {
     return {
       'uid': uid,
       'username': username,
+      'caption': caption,
       'phoneNumber': phoneNumber,
       'photoUrl': photoUrl,
       'createdAt': createdAt.millisecondsSinceEpoch,
@@ -43,7 +44,7 @@ class Status {
       profilePic: map['profilePic'] ?? '',
       statusId: map['statusId'] ?? '',
       whoCanSee: List<String>.from(map['whoCanSee']),
-      caption: map['username'] ?? '',
+      caption: map['caption'] ?? '',
     );
   }
 }

@@ -1,13 +1,18 @@
+import 'dart:io';
+
 import 'package:chatbro/common/utils/coloors.dart';
+import 'package:chatbro/common/utils/utils.dart';
+import 'package:chatbro/features/status/screens/confirm_status_screen.dart';
 import 'package:chatbro/features/status/widgets/status_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class StatusScreen extends StatelessWidget {
+class StatusScreen extends ConsumerWidget {
   static const String routeName = '/status-screen';
   const StatusScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -70,7 +75,17 @@ class StatusScreen extends StatelessWidget {
             right: 10.0,
             child: FloatingActionButton(
               heroTag: "camera",
-              onPressed: () {},
+              onPressed: () async {
+                File? pickedImage = await pickImageFromGallery(context);
+                if (pickedImage != null) {
+                  // ignore: use_build_context_synchronously
+                  Navigator.pushNamed(
+                    context,
+                    ConfirmStatusScreen.routeName,
+                    arguments: pickedImage,
+                  );
+                }
+              },
               tooltip: 'Camera',
               child: const Icon(
                 Icons.camera_alt,

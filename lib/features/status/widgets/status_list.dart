@@ -1,8 +1,12 @@
-import 'package:chatbro/models/status_model.dart';
+import 'package:chatbro/common/widgets/loader.dart';
+import 'package:chatbro/features/status/controller/status_controller.dart';
+import 'package:chatbro/features/status/screens/status_detail.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-class StatusList extends StatelessWidget {
+class StatusList extends ConsumerWidget {
   StatusList({super.key});
 
   String formatDate(DateTime dateTime) {
@@ -26,104 +30,42 @@ class StatusList extends StatelessWidget {
     return formattedDate;
   }
 
-  final List<Status> list = [
-    Status(
-      uid: '1',
-      username: 'Budi',
-      phoneNumber: '',
-      photoUrl: ['assets/images/profile_photos/profile1.png'],
-      createdAt: DateTime.now(),
-      profilePic: 'assets/images/profile_photos/profile1.png',
-      statusId: '',
-      whoCanSee: [],
-      caption: 'Ini adalah caption pertama',
-    ),
-    Status(
-      uid: '2',
-      username: 'Siti',
-      phoneNumber: '',
-      photoUrl: ['assets/images/profile_photos/profile2.png'],
-      createdAt: DateTime.now(),
-      profilePic: 'assets/images/profile_photos/profile2.png',
-      statusId: '',
-      whoCanSee: [],
-      caption: 'Ini adalah caption pertama',
-    ),
-    Status(
-      uid: '3',
-      username: 'Ahmad',
-      phoneNumber: '',
-      photoUrl: ['assets/images/profile_photos/profile1.png'],
-      createdAt: DateTime.now(),
-      profilePic: 'assets/images/profile_photos/profile1.png',
-      statusId: '',
-      whoCanSee: [],
-      caption: 'Ini adalah caption pertama',
-    ),
-    Status(
-      uid: '4',
-      username: 'Dewi',
-      phoneNumber: '',
-      photoUrl: ['assets/images/profile_photos/profile2.png'],
-      createdAt: DateTime.now(),
-      profilePic: 'assets/images/profile_photos/profile2.png',
-      statusId: '',
-      whoCanSee: [],
-      caption: 'Ini adalah caption pertama',
-    ),
-    Status(
-      uid: '5',
-      username: 'Agus',
-      phoneNumber: '',
-      photoUrl: ['assets/images/profile_photos/profile2.png'],
-      createdAt: DateTime.now(),
-      profilePic: 'assets/images/profile_photos/profile2.png',
-      statusId: '',
-      whoCanSee: [],
-      caption: 'Ini adalah caption pertama',
-    ),
-    Status(
-      uid: '6',
-      username: 'Yuli',
-      phoneNumber: '',
-      photoUrl: ['assets/images/profile_photos/profile2.png'],
-      createdAt: DateTime.now(),
-      profilePic: 'assets/images/profile_photos/profile2.png',
-      statusId: '',
-      whoCanSee: [],
-      caption: 'Ini adalah caption pertama',
-    ),
-    Status(
-      uid: '7',
-      username: 'Eko',
-      phoneNumber: '',
-      photoUrl: ['assets/images/profile_photos/profile2.png'],
-      createdAt: DateTime.now(),
-      profilePic: 'assets/images/profile_photos/profile2.png',
-      statusId: '',
-      whoCanSee: [],
-      caption: 'Ini adalah caption pertama',
-    ),
-  ];
-
   @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: list.length,
-      itemBuilder: (BuildContext context, int index) {
-        String formattedDate = formatDate(list[index].createdAt);
-        return ListTile(
-          leading: CircleAvatar(
-            radius: 25.0,
-            backgroundImage:
-                NetworkImage("https://picsum.photos/id/23$index/200/300"),
-          ),
-          title: Text(list[index].username),
-          subtitle: Text(formattedDate),
-        );
-      },
-    );
+  Widget build(BuildContext context, WidgetRef ref) {
+    return FutureBuilder(
+        future: ref.read(statusControllerProvider).getStatus(context),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Loader();
+          }
+          return ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: snapshot.data!.length,
+            itemBuilder: (BuildContext context, int index) {
+              var statusData = snapshot.data![index];
+              var lastStatusPic =
+                  statusData.photoUrl[statusData.photoUrl.length - 1];
+              String formattedDate = formatDate(statusData.createdAt);
+              return ListTile(
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    StatusDetailScreen.routeName,
+                    arguments: statusData,
+                  );
+                },
+                leading: CircleAvatar(
+                  radius: 25.0,
+                  backgroundImage: NetworkImage(
+                    lastStatusPic,
+                  ),
+                ),
+                title: Text(statusData.username),
+                subtitle: Text(formattedDate),
+              );
+            },
+          );
+        });
   }
 }

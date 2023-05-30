@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:chatbro/features/chat/screens/profile_screen.dart';
 import 'package:chatbro/features/select_contacts/screens/contact_screen.dart';
-import 'package:chatbro/features/status/screens/cantacts_status_screen.dart';
+import 'package:chatbro/features/status/screens/confirm_status_screen.dart';
+import 'package:chatbro/features/status/screens/status_detail.dart';
 import 'package:chatbro/features/status/screens/status_screen.dart';
+import 'package:chatbro/models/status_model.dart';
 import 'package:chatbro/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:chatbro/common/widgets/error.dart';
@@ -63,6 +67,20 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       // final status = settings.arguments as Status;
       return MaterialPageRoute(
         builder: (context) => const StatusScreen(),
+      );
+    case ConfirmStatusScreen.routeName:
+      final file = settings.arguments as File;
+      return MaterialPageRoute(
+        builder: (context) => ConfirmStatusScreen(
+          file: file,
+        ),
+      );
+    case StatusDetailScreen.routeName:
+      final status = settings.arguments as Status;
+      return MaterialPageRoute(
+        builder: (context) => StatusDetailScreen(
+          status: status,
+        ),
       );
     case CreateGroupScreen.routeName:
       return MaterialPageRoute(

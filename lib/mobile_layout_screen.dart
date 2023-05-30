@@ -2,7 +2,7 @@ import 'package:chatbro/features/call/screens/call_log_screen.dart';
 import 'package:chatbro/features/chat/widgets/contacts_list_groups.dart';
 
 import 'package:chatbro/features/landing/screens/landing_screen.dart';
-import 'package:chatbro/features/status/screens/cantacts_status_screen.dart';
+
 import 'package:chatbro/features/status/screens/status_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
