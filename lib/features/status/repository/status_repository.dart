@@ -34,6 +34,7 @@ class StatusRepository {
     required String username,
     required String profilePic,
     required String phoneNumber,
+    required String caption,
     required File statusImage,
     required BuildContext context,
   }) async {
@@ -103,7 +104,7 @@ class StatusRepository {
         profilePic: profilePic,
         statusId: statusId,
         whoCanSee: uidWhoCanSee,
-        caption: '',
+        caption: caption,
       );
 
       await firestore.collection('status').doc(statusId).set(status.toMap());
@@ -154,7 +155,7 @@ class StatusRepository {
             profilePic: tempStatus.profilePic,
             statusId: tempStatus.statusId,
             whoCanSee: tempStatus.whoCanSee,
-            caption: '',
+            caption: tempStatus.caption,
           );
           statusData.add(usernameStatus);
         }

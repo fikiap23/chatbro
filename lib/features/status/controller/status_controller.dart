@@ -21,7 +21,7 @@ class StatusController {
     required this.ref,
   });
 
-  void addStatus(File file, BuildContext context) {
+  void addStatus(File file, BuildContext context, String caption) {
     ref.watch(userDataAuthProvider).whenData((value) {
       statusRepository.uploadStatus(
         username: value!.name,
@@ -29,6 +29,7 @@ class StatusController {
         phoneNumber: value.phoneNumber,
         statusImage: file,
         context: context,
+        caption: caption,
       );
     });
   }

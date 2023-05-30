@@ -8,13 +8,16 @@ import '../../../common/utils/coloors.dart';
 class ConfirmStatusScreen extends ConsumerWidget {
   static const String routeName = '/confirm-status-screen';
   final File file;
-  const ConfirmStatusScreen({
+
+  ConfirmStatusScreen({
     Key? key,
     required this.file,
   }) : super(key: key);
 
-  void addStatus(WidgetRef ref, BuildContext context) {
-    ref.read(statusControllerProvider).addStatus(file, context);
+  final TextEditingController _captionController = TextEditingController();
+
+  void addStatus(WidgetRef ref, BuildContext context, String caption) {
+    ref.read(statusControllerProvider).addStatus(file, context, caption);
     Navigator.pop(context);
   }
 
@@ -29,12 +32,25 @@ class ConfirmStatusScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          addStatus(ref, context);
+          String caption = _captionController.text;
+          addStatus(ref, context, caption);
         },
         backgroundColor: Coloors.greenDark,
         child: const Icon(
           Icons.done,
           color: Colors.white,
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      bottomSheet: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+        color: Colors.white,
+        child: TextField(
+          controller: _captionController,
+          decoration: const InputDecoration(
+            hintText: 'Caption',
+            border: OutlineInputBorder(),
+          ),
         ),
       ),
     );
