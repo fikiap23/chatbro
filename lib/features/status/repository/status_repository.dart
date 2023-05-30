@@ -115,30 +115,48 @@ class StatusRepository {
   Future<List<Status>> getStatus(BuildContext context) async {
     List<Status> statusData = [];
     try {
+      Map<String, String> phoneNumberToUsername = {};
+
       List<Contact> contacts = [];
       if (await FlutterContacts.requestPermission()) {
         contacts = await FlutterContacts.getContacts(withProperties: true);
+        phoneNumberToUsername = {
+          for (var contact in contacts)
+            "+${contact.phones[0].number.replaceAll(RegExp(r'[^0-9]'), '')}":
+                contact.displayName
+        };
       }
-      for (int i = 0; i < contacts.length; i++) {
-        var statusesSnapshot = await firestore
-            .collection('status')
-            .where(
-              'phoneNumber',
-              isEqualTo:
-                  "+${contacts[i].phones[0].number.replaceAll(RegExp(r'[^0-9]'), '')}",
-            )
-            .where(
-              'createdAt',
-              isGreaterThan: DateTime.now()
-                  .subtract(const Duration(hours: 24))
-                  .millisecondsSinceEpoch,
-            )
-            .get();
-        for (var tempData in statusesSnapshot.docs) {
-          Status tempStatus = Status.fromMap(tempData.data());
-          if (tempStatus.whoCanSee.contains(auth.currentUser!.uid)) {
-            statusData.add(tempStatus);
-          }
+
+      var statusesSnapshot = await firestore
+          .collection('status')
+          .where(
+            'createdAt',
+            isGreaterThan: DateTime.now()
+                .subtract(const Duration(hours: 24))
+                .millisecondsSinceEpoch,
+          )
+          .get();
+      for (var tempData in statusesSnapshot.docs) {
+        Status tempStatus = Status.fromMap(tempData.data());
+        if (tempStatus.whoCanSee.contains(auth.currentUser!.uid)) {
+          String phoneNumber = tempStatus.phoneNumber;
+          String originalUsername =
+              phoneNumberToUsername[phoneNumber] ?? phoneNumber;
+          String username = (tempStatus.uid == auth.currentUser!.uid)
+              ? 'Saya'
+              : originalUsername;
+          Status usernameStatus = Status(
+            uid: tempStatus.uid,
+            username: username,
+            phoneNumber: tempStatus.phoneNumber,
+            photoUrl: tempStatus.photoUrl,
+            createdAt: tempStatus.createdAt,
+            profilePic: tempStatus.profilePic,
+            statusId: tempStatus.statusId,
+            whoCanSee: tempStatus.whoCanSee,
+            caption: '',
+          );
+          statusData.add(usernameStatus);
         }
       }
     } catch (e) {
