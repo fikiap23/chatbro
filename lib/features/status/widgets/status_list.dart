@@ -1,13 +1,14 @@
 import 'package:chatbro/common/widgets/loader.dart';
 import 'package:chatbro/features/status/controller/status_controller.dart';
 import 'package:chatbro/features/status/screens/status_detail.dart';
+import 'package:chatbro/models/status_model.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 class StatusList extends ConsumerWidget {
-  StatusList({super.key});
+  StatusList({Key? key}) : super(key: key);
 
   String formatDate(DateTime dateTime) {
     DateTime now = DateTime.now();
@@ -32,40 +33,45 @@ class StatusList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return FutureBuilder(
-        future: ref.read(statusControllerProvider).getStatus(context),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Loader();
-          }
-          return ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: snapshot.data!.length,
-            itemBuilder: (BuildContext context, int index) {
-              var statusData = snapshot.data![index];
-              var lastStatusPic =
-                  statusData.photoUrl[statusData.photoUrl.length - 1];
-              String formattedDate = formatDate(statusData.createdAt);
-              return ListTile(
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    StatusDetailScreen.routeName,
-                    arguments: statusData,
-                  );
-                },
-                leading: CircleAvatar(
-                  radius: 25.0,
-                  backgroundImage: NetworkImage(
-                    lastStatusPic,
-                  ),
-                ),
-                title: Text(statusData.username),
-                subtitle: Text(formattedDate),
-              );
-            },
-          );
-        });
+    return StreamBuilder<List<Status>>(
+      stream: ref.read(statusControllerProvider).getStatusStream(context),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Loader();
+        }
+
+        List<Status>? statusList = snapshot.data;
+        if (statusList == null || statusList.isEmpty) {
+          return const Center(child: Text('No status available'));
+        }
+
+        return ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: statusList.length,
+          itemBuilder: (BuildContext context, int index) {
+            var statusData = statusList[index];
+            var lastStatusPic =
+                statusData.photoUrl[statusData.photoUrl.length - 1];
+            String formattedDate = formatDate(statusData.createdAt);
+            return ListTile(
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  StatusDetailScreen.routeName,
+                  arguments: statusData,
+                );
+              },
+              leading: CircleAvatar(
+                radius: 25.0,
+                backgroundImage: NetworkImage(lastStatusPic),
+              ),
+              title: Text(statusData.username),
+              subtitle: Text(formattedDate),
+            );
+          },
+        );
+      },
+    );
   }
 }

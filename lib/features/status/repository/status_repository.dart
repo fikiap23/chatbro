@@ -113,8 +113,7 @@ class StatusRepository {
     }
   }
 
-  Future<List<Status>> getStatus(BuildContext context) async {
-    List<Status> statusData = [];
+  Stream<List<Status>> getStatusStream(BuildContext context) async* {
     try {
       Map<String, String> phoneNumberToUsername = {};
 
@@ -128,42 +127,44 @@ class StatusRepository {
         };
       }
 
-      var statusesSnapshot = await firestore
-          .collection('status')
-          .where(
+      var query = firestore.collection('status').where(
             'createdAt',
             isGreaterThan: DateTime.now()
                 .subtract(const Duration(hours: 24))
                 .millisecondsSinceEpoch,
-          )
-          .get();
-      for (var tempData in statusesSnapshot.docs) {
-        Status tempStatus = Status.fromMap(tempData.data());
-        if (tempStatus.whoCanSee.contains(auth.currentUser!.uid)) {
-          String phoneNumber = tempStatus.phoneNumber;
-          String originalUsername =
-              phoneNumberToUsername[phoneNumber] ?? phoneNumber;
-          String username = (tempStatus.uid == auth.currentUser!.uid)
-              ? 'Saya'
-              : originalUsername;
-          Status usernameStatus = Status(
-            uid: tempStatus.uid,
-            username: username,
-            phoneNumber: tempStatus.phoneNumber,
-            photoUrl: tempStatus.photoUrl,
-            createdAt: tempStatus.createdAt,
-            profilePic: tempStatus.profilePic,
-            statusId: tempStatus.statusId,
-            whoCanSee: tempStatus.whoCanSee,
-            caption: tempStatus.caption,
           );
-          statusData.add(usernameStatus);
+
+      await for (var statusesSnapshot in query.snapshots()) {
+        List<Status> statusData = [];
+        for (var tempData in statusesSnapshot.docs) {
+          Status tempStatus = Status.fromMap(tempData.data());
+          if (tempStatus.whoCanSee.contains(auth.currentUser!.uid)) {
+            String phoneNumber = tempStatus.phoneNumber;
+            String originalUsername =
+                phoneNumberToUsername[phoneNumber] ?? phoneNumber;
+            String username = (tempStatus.uid == auth.currentUser!.uid)
+                ? 'Saya'
+                : originalUsername;
+            Status usernameStatus = Status(
+              uid: tempStatus.uid,
+              username: username,
+              phoneNumber: tempStatus.phoneNumber,
+              photoUrl: tempStatus.photoUrl,
+              createdAt: tempStatus.createdAt,
+              profilePic: tempStatus.profilePic,
+              statusId: tempStatus.statusId,
+              whoCanSee: tempStatus.whoCanSee,
+              caption: tempStatus.caption,
+            );
+            statusData.add(usernameStatus);
+          }
         }
+        yield statusData;
       }
     } catch (e) {
       if (kDebugMode) print(e);
       showSnackBar(context: context, content: e.toString());
+      yield [];
     }
-    return statusData;
   }
 }
