@@ -94,10 +94,10 @@ class MobileChatScreen extends ConsumerWidget {
                           child: Text(nameContact),
                           onTap: () {
                             Navigator.pushNamed(
-                              context,
-                              ProfileScreen.routeName,
-                              arguments: user,
-                            );
+                                context, ProfileScreen.routeName, arguments: {
+                              'user': user,
+                              'nameContact': nameContact
+                            });
                           },
                         ),
                         Text(

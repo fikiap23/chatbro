@@ -56,9 +56,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       );
 
     case ProfileScreen.routeName:
-      final UserModel user = settings.arguments as UserModel;
+      final arguments = settings.arguments as Map<String, dynamic>;
+      final UserModel user = arguments['user'];
+      final String nameContact = arguments['nameContact'];
       return PageTransition(
-        child: ProfileScreen(user: user),
+        child: ProfileScreen(user: user, nameContact: nameContact),
         type: PageTransitionType.fade,
         duration: const Duration(milliseconds: 800),
       );

@@ -87,84 +87,74 @@ class ContactsList extends ConsumerWidget {
                       itemBuilder: (context, index) {
                         var chatContactData = snapshot.data![index];
 
-                        return FutureBuilder(
-                            future: getContactNameByNumber(
-                                chatContactData.phoneNumber),
-                            builder: (context, snap) {
-                              return Column(
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.pushNamed(
-                                          context, MobileChatScreen.routeName,
-                                          arguments: {
-                                            'user': UserModel(
-                                              name: snap.data ??
-                                                  chatContactData.name,
-                                              uid: chatContactData.contactId,
-                                              profilePic:
-                                                  chatContactData.profilePic,
-                                              phoneNumber:
-                                                  chatContactData.phoneNumber,
-                                              isOnline: false,
-                                              groupId: [],
-                                            ),
-                                            'group': g.Group(
-                                              groupId: '',
-                                              name: '',
-                                              groupPic: '',
-                                              lastMessage: '',
-                                              membersUid: [],
-                                              senderId: '',
-                                              timeSent: DateTime.now(),
-                                            ),
-                                            'isGroupChat': false,
-                                            'nameContact': snap.data ??
-                                                chatContactData.phoneNumber,
-                                          });
-                                    },
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 8.0),
-                                      child: ListTile(
-                                        textColor: blackColor,
-                                        title: Text(
-                                          snap.data ??
-                                              chatContactData.phoneNumber,
-                                          style: const TextStyle(
-                                            fontSize: 18,
-                                          ),
-                                        ),
-                                        subtitle: Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 6.0),
-                                          child: Text(
-                                            chatContactData.lastMessage,
-                                            style:
-                                                const TextStyle(fontSize: 15),
-                                          ),
-                                        ),
-                                        leading: CircleAvatar(
-                                          backgroundImage: NetworkImage(
-                                            chatContactData.profilePic,
-                                          ),
-                                          radius: 30,
-                                        ),
-                                        trailing: Text(
-                                          getLastMessageFormattedDate(
-                                              chatContactData),
-                                          style: const TextStyle(
-                                            color: blackColor,
-                                            fontSize: 13,
-                                          ),
-                                        ),
+                        return Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, MobileChatScreen.routeName,
+                                    arguments: {
+                                      'user': UserModel(
+                                        name: chatContactData.name,
+                                        uid: chatContactData.contactId,
+                                        profilePic: chatContactData.profilePic,
+                                        phoneNumber:
+                                            chatContactData.phoneNumber,
+                                        isOnline: false,
+                                        groupId: [],
                                       ),
+                                      'group': g.Group(
+                                        groupId: '',
+                                        name: '',
+                                        groupPic: '',
+                                        lastMessage: '',
+                                        membersUid: [],
+                                        senderId: '',
+                                        timeSent: DateTime.now(),
+                                      ),
+                                      'isGroupChat': false,
+                                      'nameContact':
+                                          chatContactData.nameContact,
+                                    });
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: ListTile(
+                                  textColor: blackColor,
+                                  title: Text(
+                                    chatContactData.nameContact ??
+                                        chatContactData.phoneNumber,
+                                    style: const TextStyle(
+                                      fontSize: 18,
                                     ),
                                   ),
-                                  // const Divider(color: dividerColor, indent: 85),
-                                ],
-                              );
-                            });
+                                  subtitle: Padding(
+                                    padding: const EdgeInsets.only(top: 6.0),
+                                    child: Text(
+                                      chatContactData.lastMessage,
+                                      style: const TextStyle(fontSize: 15),
+                                    ),
+                                  ),
+                                  leading: CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                      chatContactData.profilePic,
+                                    ),
+                                    radius: 30,
+                                  ),
+                                  trailing: Text(
+                                    getLastMessageFormattedDate(
+                                        chatContactData),
+                                    style: const TextStyle(
+                                      color: blackColor,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            // const Divider(color: dividerColor, indent: 85),
+                          ],
+                        );
                       },
                     );
                   }),

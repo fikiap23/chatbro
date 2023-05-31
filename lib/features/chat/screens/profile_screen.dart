@@ -9,10 +9,9 @@ import 'package:chatbro/models/user_model.dart';
 class ProfileScreen extends StatelessWidget {
   static const String routeName = '/profile-screen';
   final UserModel user;
-  const ProfileScreen({
-    Key? key,
-    required this.user,
-  }) : super(key: key);
+  final String nameContact;
+  const ProfileScreen({Key? key, required this.user, required this.nameContact})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +32,9 @@ class ProfileScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        user.name,
+                        nameContact != user.phoneNumber
+                            ? nameContact
+                            : user.name,
                         style: const TextStyle(fontSize: 24),
                       ),
                       const SizedBox(height: 10),

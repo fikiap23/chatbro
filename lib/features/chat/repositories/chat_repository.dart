@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_contacts/flutter_contacts.dart' as fc;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:uuid/uuid.dart';
 import 'package:chatbro/common/enums/message_enum.dart';
 import 'package:chatbro/common/providers/message_reply_provider.dart';
@@ -40,8 +42,22 @@ class ChatRepository {
         .snapshots()
         .asyncMap((event) async {
       List<ChatContact> contacts = [];
+      List<fc.Contact> flutterContacts = [];
+      Map<String, String> phoneNumberToUsername = {};
+
+      var status = await Permission.contacts.request();
+      if (status.isGranted) {
+        flutterContacts = await fc.FlutterContacts.getContacts(
+          withProperties: true,
+        );
+        phoneNumberToUsername = {
+          for (var contact in flutterContacts)
+            "+${contact.phones[0].number.replaceAll(RegExp(r'[^0-9]'), '')}":
+                contact.displayName
+        };
+      }
+
       for (var document in event.docs) {
-        // Mengambil data ChatContact dari document Firestore
         var chatContact = ChatContact.fromMap(document.data());
         var userData = await firestore
             .collection('users')
@@ -51,6 +67,8 @@ class ChatRepository {
 
         contacts.add(
           ChatContact(
+            nameContact:
+                phoneNumberToUsername[user.phoneNumber] ?? user.phoneNumber,
             name: user.name,
             profilePic: user.profilePic,
             contactId: chatContact.contactId,
@@ -60,6 +78,7 @@ class ChatRepository {
           ),
         );
       }
+
       return contacts;
     });
   }
