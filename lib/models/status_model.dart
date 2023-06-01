@@ -5,11 +5,11 @@ class Status {
   final List<String> photoUrl;
   final DateTime createdAt;
   final String profilePic;
-  final String caption;
+  final List<String> captions;
   final String statusId;
   final List<String> whoCanSee;
   Status({
-    required this.caption,
+    required this.captions,
     required this.uid,
     required this.username,
     required this.phoneNumber,
@@ -24,7 +24,7 @@ class Status {
     return {
       'uid': uid,
       'username': username,
-      'caption': caption,
+      'captions': captions,
       'phoneNumber': phoneNumber,
       'photoUrl': photoUrl,
       'createdAt': createdAt.millisecondsSinceEpoch,
@@ -44,7 +44,7 @@ class Status {
       profilePic: map['profilePic'] ?? '',
       statusId: map['statusId'] ?? '',
       whoCanSee: List<String>.from(map['whoCanSee']),
-      caption: map['caption'] ?? '',
+      captions: List<String>.from(map['captions']),
     );
   }
 }

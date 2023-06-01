@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chatbro/models/status_model.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:story_view/story_view.dart';
 
 class StatusDetailScreen extends StatefulWidget {
@@ -17,8 +18,29 @@ class StatusDetailScreen extends StatefulWidget {
 }
 
 class _StatusDetailScreenState extends State<StatusDetailScreen> {
-  StoryController controller = StoryController();
+  final storyController = StoryController();
   List<StoryItem> storyItems = [];
+
+  String formatDate(DateTime dateTime) {
+    DateTime now = DateTime.now();
+    DateTime yesterday = DateTime.now().subtract(Duration(days: 1));
+
+    String formattedDate;
+
+    if (dateTime.year == now.year &&
+        dateTime.month == now.month &&
+        dateTime.day == now.day) {
+      formattedDate = "hari ini ${DateFormat('HH.mm').format(dateTime)}";
+    } else if (dateTime.year == yesterday.year &&
+        dateTime.month == yesterday.month &&
+        dateTime.day == yesterday.day) {
+      formattedDate = "kemarin ${DateFormat('HH.mm').format(dateTime)}";
+    } else {
+      formattedDate = DateFormat('dd/MM/yyyy HH.mm').format(dateTime);
+    }
+
+    return formattedDate;
+  }
 
   @override
   void initState() {
@@ -30,86 +52,115 @@ class _StatusDetailScreenState extends State<StatusDetailScreen> {
     for (int i = 0; i < widget.status.photoUrl.length; i++) {
       storyItems.add(StoryItem.pageImage(
         url: widget.status.photoUrl[i],
-        controller: controller,
+        imageFit: BoxFit.fitWidth,
+        controller: storyController,
+        caption: widget.status.captions[i],
       ));
     }
   }
 
   @override
+  void dispose() {
+    storyController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    print(widget.status.caption);
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: Stack(
-        children: [
-          StoryView(
-            storyItems: storyItems,
-            controller: controller,
-            onComplete: () {
+      body: Stack(children: [
+        StoryView(
+          controller: storyController,
+          onComplete: () {
+            Navigator.pop(context);
+          },
+          onVerticalSwipeComplete: (direction) {
+            if (direction == Direction.down) {
               Navigator.pop(context);
-            },
-            onVerticalSwipeComplete: (direction) {
-              if (direction == Direction.down) {
-                Navigator.pop(context);
-              }
-            },
-          ),
-          Positioned(
-            top: 60,
-            left: 10,
-            child: Row(
-              children: [
-                ClipOval(
-                  child: CachedNetworkImage(
-                    imageUrl: widget.status.profilePic,
-                    width: 40.0,
-                    height: 40.0,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                SizedBox(width: 8.0),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.status.username,
-                      style: const TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(height: 4.0),
-                  ],
-                ),
-              ],
+            }
+          },
+          storyItems: [
+            StoryItem.text(
+              title:
+                  "I guess you'd love to see more of our food. That's great.",
+              backgroundColor: Colors.blue,
             ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              height: 1.0,
-              color: Colors.white.withOpacity(0.3),
+            StoryItem.text(
+              title: "Nice!\n\nTap to continue.",
+              backgroundColor: Colors.red,
+              textStyle: TextStyle(
+                fontFamily: 'Dancing',
+                fontSize: 40,
+              ),
             ),
-          ),
-          Positioned(
-            bottom: 16.0,
-            left: 16.0,
-            right: 16.0,
-            child: Text(
-              widget.status.caption,
-              style: const TextStyle(
-                fontSize: 16.0,
+            StoryItem.pageImage(
+              url:
+                  "https://image.ibb.co/cU4WGx/Omotuo-Groundnut-Soup-braperucci-com-1.jpg",
+              caption: "Still sampling",
+              controller: storyController,
+            ),
+            StoryItem.pageImage(
+                url: "https://media.giphy.com/media/5GoVLqeAOo6PK/giphy.gif",
+                caption: "Working with gifs",
+                controller: storyController),
+            StoryItem.pageImage(
+              url: "https://media.giphy.com/media/XcA8krYsrEAYXKf4UQ/giphy.gif",
+              caption: "Hello, from the other side",
+              controller: storyController,
+            ),
+            StoryItem.pageImage(
+              url: "https://media.giphy.com/media/XcA8krYsrEAYXKf4UQ/giphy.gif",
+              caption: "Hello, from the other side2",
+              controller: storyController,
+            ),
+          ],
+          onStoryShow: (s) {},
+          progressPosition: ProgressPosition.top,
+          repeat: false,
+        ),
+        Positioned(
+          top: 50,
+          left: 10,
+          child: Row(
+            children: [
+              const Icon(
+                Icons.arrow_back,
                 color: Colors.white,
               ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
+              const SizedBox(width: 8),
+              ClipOval(
+                child: CachedNetworkImage(
+                  imageUrl: widget.status.profilePic,
+                  width: 40.0,
+                  height: 40.0,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.status.username,
+                    style: const TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    formatDate(widget.status.createdAt),
+                    style: const TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ]),
     );
   }
 }

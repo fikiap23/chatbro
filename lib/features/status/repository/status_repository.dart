@@ -69,7 +69,6 @@ class StatusRepository {
           uidWhoCanSee.add(userData.uid);
         }
       }
-      // print(uidWhoCanSee);
 
       List<String> statusImageUrls = [];
       var statusesSnapshot = await firestore
@@ -89,6 +88,7 @@ class StatusRepository {
             .doc(statusesSnapshot.docs[0].id)
             .update({
           'photoUrl': statusImageUrls,
+          'captions': FieldValue.arrayUnion([caption]), // Update captions array
         });
         return;
       } else {
@@ -104,7 +104,7 @@ class StatusRepository {
         profilePic: profilePic,
         statusId: statusId,
         whoCanSee: uidWhoCanSee,
-        caption: caption,
+        captions: [caption],
       );
 
       await firestore.collection('status').doc(statusId).set(status.toMap());
@@ -154,7 +154,7 @@ class StatusRepository {
               profilePic: tempStatus.profilePic,
               statusId: tempStatus.statusId,
               whoCanSee: tempStatus.whoCanSee,
-              caption: tempStatus.caption,
+              captions: tempStatus.captions,
             );
             statusData.add(usernameStatus);
           }
