@@ -24,13 +24,89 @@ class ConfirmStatusScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: Center(
         child: file != null
-            ? AspectRatio(
-                aspectRatio: 9 / 16,
-                child: Image.file(file!),
+            ? Stack(
+                children: [
+                  Expanded(
+                    child: AspectRatio(
+                      aspectRatio: 9 / 16,
+                      child: Image.file(file!),
+                    ),
+                  ),
+                  Positioned(
+                    top: 10,
+                    left: 10,
+                    child: IconButton(
+                      icon: const Icon(Icons.close, color: Colors.white),
+                      onPressed: () {
+                        // Aksi untuk menutup kontainer
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 10,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      constraints: const BoxConstraints(maxHeight: 50.0),
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 65, 60, 60)
+                            .withOpacity(0.8),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: TextField(
+                        controller: _captionController,
+                        style: const TextStyle(color: Colors.white),
+                        decoration: InputDecoration(
+                          hintText: 'Caption',
+                          hintStyle: const TextStyle(color: Colors.white54),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               )
-            : Container(),
+            : Container(
+                width: double.infinity,
+                height: double.infinity,
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0, vertical: 12.0),
+                color: Colors.blue,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      top: 12.0,
+                      left: 0,
+                      child: IconButton(
+                        icon: const Icon(Icons.close, color: Colors.white),
+                        onPressed: () {
+                          // Aksi untuk menutup kontainer
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                    Center(
+                      child: TextField(
+                        controller: _captionController,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(color: Colors.white),
+                        decoration: const InputDecoration(
+                          hintText: 'Ketik status',
+                          hintStyle: TextStyle(color: Colors.white70),
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -39,20 +115,8 @@ class ConfirmStatusScreen extends ConsumerWidget {
         },
         backgroundColor: Coloors.greenDark,
         child: const Icon(
-          Icons.done,
+          Icons.send,
           color: Colors.white,
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      bottomSheet: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-        color: Colors.white,
-        child: TextField(
-          controller: _captionController,
-          decoration: const InputDecoration(
-            hintText: 'Caption',
-            border: OutlineInputBorder(),
-          ),
         ),
       ),
     );
