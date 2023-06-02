@@ -62,7 +62,12 @@ class StatusScreen extends ConsumerWidget {
               mini: true,
               backgroundColor: backgroundColor,
               heroTag: "tombolTambah",
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  ConfirmStatusScreen.routeName,
+                );
+              },
               tooltip: 'Tambah',
               child: const Icon(
                 Icons.edit,

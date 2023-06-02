@@ -64,7 +64,21 @@ class StatusList extends ConsumerWidget {
               },
               leading: CircleAvatar(
                 radius: 25.0,
-                backgroundImage: NetworkImage(lastStatusPic),
+                backgroundImage:
+                    lastStatusPic != "" ? NetworkImage(lastStatusPic) : null,
+                backgroundColor: lastStatusPic != ""
+                    ? Colors.blue
+                    : null, // Warna latar belakang jika backgroundImage null
+                child: lastStatusPic != ""
+                    ? null
+                    : Text(
+                        statusData.captions[statusData.captions.length - 1],
+                        overflow: TextOverflow.visible,
+                        style: const TextStyle(
+                          fontSize: 10,
+                          color: Colors.white,
+                        ),
+                      ),
               ),
               title: Text(statusData.username),
               subtitle: Text(formattedDate),

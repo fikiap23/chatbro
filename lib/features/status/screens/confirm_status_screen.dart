@@ -7,11 +7,11 @@ import '../../../common/utils/coloors.dart';
 
 class ConfirmStatusScreen extends ConsumerWidget {
   static const String routeName = '/confirm-status-screen';
-  final File file;
+  final File? file;
 
   ConfirmStatusScreen({
     Key? key,
-    required this.file,
+    this.file,
   }) : super(key: key);
 
   final TextEditingController _captionController = TextEditingController();
@@ -25,10 +25,12 @@ class ConfirmStatusScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: Center(
-        child: AspectRatio(
-          aspectRatio: 9 / 16,
-          child: Image.file(file),
-        ),
+        child: file != null
+            ? AspectRatio(
+                aspectRatio: 9 / 16,
+                child: Image.file(file!),
+              )
+            : Container(),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

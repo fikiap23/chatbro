@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chatbro/models/status_model.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +22,16 @@ class StatusDetailScreen extends StatefulWidget {
 class _StatusDetailScreenState extends State<StatusDetailScreen> {
   final storyController = StoryController();
   List<StoryItem> storyItems = [];
+  final List<Color> backgroundColors = [
+    Colors.red,
+    Colors.blue,
+    Colors.green,
+    Colors.yellow,
+    Colors.orange,
+    Colors.purple,
+    Colors.teal,
+    Colors.pink,
+  ];
 
   String formatDate(DateTime dateTime) {
     DateTime now = DateTime.now();
@@ -49,13 +61,29 @@ class _StatusDetailScreenState extends State<StatusDetailScreen> {
   }
 
   void initStoryPageItems() {
+    final random = Random();
     for (int i = 0; i < widget.status.photoUrl.length; i++) {
-      storyItems.add(StoryItem.pageImage(
-        url: widget.status.photoUrl[i],
-        imageFit: BoxFit.fitWidth,
-        controller: storyController,
-        caption: widget.status.captions[i],
-      ));
+      if (widget.status.photoUrl[i].isNotEmpty ||
+          widget.status.photoUrl[i] != "") {
+        storyItems.add(
+          StoryItem.pageImage(
+            url: widget.status.photoUrl[i],
+            imageFit: BoxFit.fitWidth,
+            controller: storyController,
+            caption: widget.status.captions[i],
+          ),
+        );
+      } else {
+        final randomIndex = random.nextInt(backgroundColors.length);
+        final randomColor = backgroundColors[randomIndex];
+        storyItems.add(
+          StoryItem.text(
+            title: widget.status.captions[i],
+            textStyle: const TextStyle(fontSize: 16, color: Colors.white),
+            backgroundColor: randomColor,
+          ),
+        );
+      }
     }
   }
 
@@ -79,41 +107,7 @@ class _StatusDetailScreenState extends State<StatusDetailScreen> {
               Navigator.pop(context);
             }
           },
-          storyItems: [
-            StoryItem.text(
-              title:
-                  "I guess you'd love to see more of our food. That's great.",
-              backgroundColor: Colors.blue,
-            ),
-            StoryItem.text(
-              title: "Nice!\n\nTap to continue.",
-              backgroundColor: Colors.red,
-              textStyle: TextStyle(
-                fontFamily: 'Dancing',
-                fontSize: 40,
-              ),
-            ),
-            StoryItem.pageImage(
-              url:
-                  "https://image.ibb.co/cU4WGx/Omotuo-Groundnut-Soup-braperucci-com-1.jpg",
-              caption: "Still sampling",
-              controller: storyController,
-            ),
-            StoryItem.pageImage(
-                url: "https://media.giphy.com/media/5GoVLqeAOo6PK/giphy.gif",
-                caption: "Working with gifs",
-                controller: storyController),
-            StoryItem.pageImage(
-              url: "https://media.giphy.com/media/XcA8krYsrEAYXKf4UQ/giphy.gif",
-              caption: "Hello, from the other side",
-              controller: storyController,
-            ),
-            StoryItem.pageImage(
-              url: "https://media.giphy.com/media/XcA8krYsrEAYXKf4UQ/giphy.gif",
-              caption: "Hello, from the other side2",
-              controller: storyController,
-            ),
-          ],
+          storyItems: storyItems,
           onStoryShow: (s) {},
           progressPosition: ProgressPosition.top,
           repeat: false,

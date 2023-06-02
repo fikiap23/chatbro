@@ -71,7 +71,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         builder: (context) => const StatusScreen(),
       );
     case ConfirmStatusScreen.routeName:
-      final file = settings.arguments as File;
+      final file = settings.arguments as File?;
       return MaterialPageRoute(
         builder: (context) => ConfirmStatusScreen(
           file: file,

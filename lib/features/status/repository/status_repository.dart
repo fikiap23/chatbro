@@ -34,19 +34,29 @@ class StatusRepository {
     required String username,
     required String profilePic,
     required String phoneNumber,
-    required String caption,
-    required File statusImage,
+    String? caption,
+    File? statusImage,
+    File? statusVideo,
     required BuildContext context,
   }) async {
     try {
       var statusId = const Uuid().v1();
       String uid = auth.currentUser!.uid;
-      String imageurl = await ref
-          .read(commonFirebaseStorageRepositoryProvider)
-          .storeFileToFirebase(
-            '/status/$statusId$uid',
-            statusImage,
-          );
+      String fileUrl;
+
+      if (statusImage != null) {
+        fileUrl = await ref
+            .read(commonFirebaseStorageRepositoryProvider)
+            .storeFileToFirebase(
+              '/status/$statusId$uid',
+              statusImage,
+            );
+      } else {
+        fileUrl = "";
+      }
+
+      caption ??= "";
+
       List<Contact> contacts = [];
       if (await FlutterContacts.requestPermission()) {
         contacts = await FlutterContacts.getContacts(withProperties: true);
@@ -70,7 +80,7 @@ class StatusRepository {
         }
       }
 
-      List<String> statusImageUrls = [];
+      List<String> statusFileUrls = [];
       var statusesSnapshot = await firestore
           .collection('status')
           .where(
@@ -81,25 +91,25 @@ class StatusRepository {
 
       if (statusesSnapshot.docs.isNotEmpty) {
         Status status = Status.fromMap(statusesSnapshot.docs[0].data());
-        statusImageUrls = status.photoUrl;
-        statusImageUrls.add(imageurl);
+        statusFileUrls = status.photoUrl;
+        statusFileUrls.add(fileUrl);
         await firestore
             .collection('status')
             .doc(statusesSnapshot.docs[0].id)
             .update({
-          'photoUrl': statusImageUrls,
+          'photoUrl': statusFileUrls,
           'captions': FieldValue.arrayUnion([caption]), // Update captions array
         });
         return;
       } else {
-        statusImageUrls = [imageurl];
+        statusFileUrls = [fileUrl];
       }
 
       Status status = Status(
         uid: uid,
         username: username,
         phoneNumber: phoneNumber,
-        photoUrl: statusImageUrls,
+        photoUrl: statusFileUrls,
         createdAt: DateTime.now(),
         profilePic: profilePic,
         statusId: statusId,
