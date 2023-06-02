@@ -22,16 +22,13 @@ class StatusDetailScreen extends StatefulWidget {
 class _StatusDetailScreenState extends State<StatusDetailScreen> {
   final storyController = StoryController();
   List<StoryItem> storyItems = [];
-  final List<Color> backgroundColors = [
-    Colors.red,
-    Colors.blue,
-    Colors.green,
-    Colors.yellow,
-    Colors.orange,
-    Colors.purple,
-    Colors.teal,
-    Colors.pink,
-  ];
+  Color randomColor() {
+    final Random random = Random();
+    final int r = random.nextInt(256);
+    final int g = random.nextInt(256);
+    final int b = random.nextInt(256);
+    return Color.fromARGB(255, r, g, b);
+  }
 
   String formatDate(DateTime dateTime) {
     DateTime now = DateTime.now();
@@ -74,13 +71,11 @@ class _StatusDetailScreenState extends State<StatusDetailScreen> {
           ),
         );
       } else {
-        final randomIndex = random.nextInt(backgroundColors.length);
-        final randomColor = backgroundColors[randomIndex];
         storyItems.add(
           StoryItem.text(
             title: widget.status.captions[i],
             textStyle: const TextStyle(fontSize: 16, color: Colors.white),
-            backgroundColor: randomColor,
+            backgroundColor: randomColor(),
           ),
         );
       }

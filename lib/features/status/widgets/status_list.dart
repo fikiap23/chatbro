@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:chatbro/common/widgets/loader.dart';
 import 'package:chatbro/features/status/controller/status_controller.dart';
 import 'package:chatbro/features/status/screens/status_detail.dart';
@@ -29,6 +31,14 @@ class StatusList extends ConsumerWidget {
     }
 
     return formattedDate;
+  }
+
+  Color randomColor() {
+    final Random random = Random();
+    final int r = random.nextInt(256);
+    final int g = random.nextInt(256);
+    final int b = random.nextInt(256);
+    return Color.fromARGB(255, r, g, b);
   }
 
   @override
@@ -67,8 +77,8 @@ class StatusList extends ConsumerWidget {
                 backgroundImage:
                     lastStatusPic != "" ? NetworkImage(lastStatusPic) : null,
                 backgroundColor: lastStatusPic != ""
-                    ? Colors.blue
-                    : null, // Warna latar belakang jika backgroundImage null
+                    ? null
+                    : randomColor(), // Warna latar belakang jika backgroundImage null
                 child: lastStatusPic != ""
                     ? null
                     : Text(

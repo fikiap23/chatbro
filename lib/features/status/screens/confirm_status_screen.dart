@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:chatbro/features/status/controller/status_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,6 +14,14 @@ class ConfirmStatusScreen extends ConsumerWidget {
     Key? key,
     this.file,
   }) : super(key: key);
+
+  Color randomColor() {
+    final Random random = Random();
+    final int r = random.nextInt(256);
+    final int g = random.nextInt(256);
+    final int b = random.nextInt(256);
+    return Color.fromARGB(255, r, g, b);
+  }
 
   final TextEditingController _captionController = TextEditingController();
 
@@ -78,7 +87,7 @@ class ConfirmStatusScreen extends ConsumerWidget {
                 height: double.infinity,
                 padding: const EdgeInsets.symmetric(
                     horizontal: 16.0, vertical: 12.0),
-                color: Colors.blue,
+                color: randomColor(),
                 child: Stack(
                   children: [
                     Positioned(
