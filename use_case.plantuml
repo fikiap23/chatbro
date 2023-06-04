@@ -1,16 +1,16 @@
 @startuml
 left to right direction
 actor User as U
-actor "Customer Service" as CS
 
-rectangle WhatsApp {
+
+rectangle Use_Case_User_WhatsApp {
   U -- (Daftar) 
   U -- (Buat Grup)
   U -- (Chat)
   U -- (Profile Setting)
   U -- (Kelola Akun)
-  U -- (Customer Support)
-  CS -- (Customer Support) 
+
+
 
  (Daftar) --> (Buat Profil)
   (Daftar) --> (Verifikasi OTP Nomor Telepon)
