@@ -1,39 +1,43 @@
-**Tugas Besar: Clone WhatsApp**
+- **Landing page**
 
-Nama: Fiki Aprian
+<img src="Screenshot_Aplikasi/landing_page.png" alt="alt text" width="300">
 
-NIM: 1217050058
+- **Register**
 
-Kelas: Praktikum PBO A
+<img src="Screenshot_Aplikasi/Register.png" alt="alt text" width="300">
 
-**Deskrispi Aplikasi**
+- **OTP**
 
-WhatsApp adalah aplikasi pesan instan yang memungkinkan pengguna untuk mengirim pesan teks, suara, dan video secara gratis melalui internet. Selain itu, pengguna dapat melakukan panggilan suara dan video, serta mengirim file seperti dokumen, gambar, dan video. Aplikasi ini dapat diakses melalui platform iOS dan Android serta web.
+<img src="Screenshot_Aplikasi/Otp.png" alt="alt text" width="300">
 
-**Teknologi yang Digunakan**
-- Bahasa Pemrograman: Dart
-- Framework: Flutter
-- Database: Firebase
+- **Grup**
 
-**USE CASE PRIORITY**
-| Use Case                     | Priority | Status |
-|------------------------------|----------|--------|
-| Registrasi          | Tinggi   | Selesai
-| Liat kontak          | Tinggi   | Selesai |
-| Mengirim Pesan Teks          | Tinggi   | Selesai |
-| Mengirim Pesan Suara         | Tinggi   | Selesai |
-| Mengirim Pesan Video         | Tinggi   | Selesai |
-| Menerima Pesan               | Tinggi   | Selesai |
-| Menyimpan Pesan              | Tinggi   | Selesai |
-| Membuat Grup                 | Tinggi   | Selesai
-| Mengirim Pesan di Grup       | Tinggi   | Selesai |
-|  Panggilan Suara     | Tinggi   | **Belum** |
-|  Panggilan Video     | Tinggi   | **Ongoing** |
-| Mengirim Berkas              | Tinggi   | **Belum** |
-| Menyimpan Riwayat Panggilan  | Sedang   | **Baru UI** |
-| Mengatur Notifikasi          | Sedang   | **Belum** |
-| Buat Status Teman         | Sedang   | **Baru Ui** |
-| Melihat Status Teman         | Sedang   | **Baru Ui** |
-| Liat Profil teman              | Sedang   | Selesai |
-| Ubah profile              | Sedang   | **Belum** |
+<img src="Screenshot_Aplikasi/grup.png" alt="alt text" width="300">
 
+- **User Chat**
+
+<img src="Screenshot_Aplikasi/user_chatlist.png" alt="alt text" width="300">
+
+- **History call**
+
+<img src="Screenshot_Aplikasi/history.png" alt="alt text" width="300">
+
+- **Status**
+
+<img src="Screenshot_Aplikasi/status.png" alt="alt text" width="300">
+
+- **Select Contact**
+
+<img src="Screenshot_Aplikasi/select_contact.png" alt="alt text" width="300">
+
+- **Chat Grup**
+
+<img src="Screenshot_Aplikasi/chat_grup.png" alt="alt text" width="300">
+
+- **Chat Personal**
+
+<img src="Screenshot_Aplikasi/chat_personal.png" alt="alt text" width="300">
+
+- **Profile teman**
+
+<img src="Screenshot_Aplikasi/profile_friend.png" alt="alt text" width="300">
